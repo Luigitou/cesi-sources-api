@@ -1,6 +1,9 @@
 # Compiled class file
 *.class
 
+docker/postgres/postgres-data
+docker/postgres/postgres-data/*
+
 # Log file
 *.log
 
