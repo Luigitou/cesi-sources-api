@@ -23,7 +23,6 @@ public class Commentaire {
 	@Column(name = "date", nullable = false)
 	private Date date;
 	
-	/*
 	public int getId() {
 		return id;
 	}
@@ -41,5 +40,5 @@ public class Commentaire {
 	}
 	public void setDate(Date date) {
 		this.date = date;
-	} */
+	}
 }

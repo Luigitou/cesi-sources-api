@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import cesi.sourcesapi.CommentaireRepository;
 import cesi.sourcesapi.Model.Commentaire;
+import cesi.sourcesapi.Repository.CommentaireRepository;
 
 @RestController
 public class CommentaireController {

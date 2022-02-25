@@ -1,4 +1,4 @@
-package cesi.sourcesapi;
+package cesi.sourcesapi.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import cesi.sourcesapi.Model.Commentaire;
