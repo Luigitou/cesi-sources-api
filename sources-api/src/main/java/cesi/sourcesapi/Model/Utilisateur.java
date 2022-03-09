@@ -13,6 +13,8 @@ import javax.persistence.Table;
 @Table(name = "Utilisateur") 
 public class Utilisateur {
 	
+	public Utilisateur(){}
+	
 	public Utilisateur(String nom, String prenom, String mail, String password, String adresse) {
 		super();
 		this.nom = nom;
