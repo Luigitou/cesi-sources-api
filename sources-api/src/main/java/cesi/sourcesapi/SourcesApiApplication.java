@@ -37,6 +37,13 @@ public class SourcesApiApplication implements CommandLineRunner{
 			}
 		};
 	}
+
+	@Override
+	public void run(String... args) throws Exception {
+		
+	}
+	
+	/*
 	
 	@Autowired
 	private UtilisateurService utilisateurService;
@@ -47,5 +54,7 @@ public class SourcesApiApplication implements CommandLineRunner{
     	Utilisateur utilisateur = new Utilisateur("Bellefemine", "Louis", "louis@mail.com", "hop", "8 rue du bout du monde");
     	utilisateur = utilisateurService.addUtilisateur(utilisateur);
 	}
+	
+	*/
 
 }
