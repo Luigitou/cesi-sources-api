@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,5 +51,40 @@ public class AuthController {
 		Utilisateur savedUtilisateur = utilisateurRepository.save(utilisateur);
 		
 		return new ResponseEntity<Object>(savedUtilisateur, HttpStatus.OK);
+	}
+	
+	@GetMapping("/utilisateurs/{id}")
+	public ResponseEntity<Object> getUtilisateurById(@PathVariable("id") int id) {
+		try {
+			Utilisateur utilisateur = utilisateurRepository.findById(id).get();
+			if(utilisateur != null) {
+				return new ResponseEntity<Object>(utilisateur, HttpStatus.OK);				
+			} else {
+				return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+			}
+		} catch(Exception ex) {
+			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PutMapping("/utilisateurs/{id}")
+	public ResponseEntity<Object> updateUtilisateur(@PathVariable("id") int id, @RequestBody Utilisateur utilisateur) {
+		try {
+			utilisateur.setId(id);
+			Utilisateur savedUtilisateur = utilisateurRepository.save(utilisateur);
+			return new ResponseEntity<Object>(savedUtilisateur, HttpStatus.OK);
+		} catch(Exception ex) {
+			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@DeleteMapping("/utilisateurs/{id}")
+	public ResponseEntity<HttpStatus> deleteUtilisateur(@PathVariable("id") int id) {
+		try {
+			utilisateurRepository.deleteById(id);
+			return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		} catch(Exception ex) {
+			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+		}
 	}
 }
