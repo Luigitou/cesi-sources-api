@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,10 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import cesi.sourcesapi.Model.Fichier;
 import cesi.sourcesapi.Repository.FichierRepository;
+import cesi.sourcesapi.Services.FichierService;
 
 @RestController
 @RequestMapping("/api")
@@ -26,16 +30,23 @@ public class FichierController {
 	@Autowired
 	private FichierRepository ficherRepository;
 	
+	@Autowired
+	private FichierService fichierService;
+	
 	@GetMapping("/fichiers")
     public List<Fichier> fetchUtilisateurs(){
         return ficherRepository.findAll();
     }
 	
 	@PostMapping("/fichiers")
-	public ResponseEntity<Object> createUFichier(@RequestBody Fichier fichier) {
-		Fichier savedFichier = ficherRepository.save(fichier);
+	public String createUFichier(@RequestParam("file") MultipartFile file) {
+		//Fichier savedFichier = ficherRepository.save();
 		
-		return new ResponseEntity<Object>(savedFichier, HttpStatus.OK);
+		fichierService.addFichier(file);
+		
+		return String.format("File %s upload succesfully ", file.getOriginalFilename());
+		
+		//return new ResponseEntity<Object>(savedFichier, HttpStatus.OK);
 	}
 	
 	@GetMapping("/fichiers/{id}")
