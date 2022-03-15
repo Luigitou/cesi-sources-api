@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cesi.sourcesapi.Model.Utilisateur;
 import cesi.sourcesapi.Repository.UtilisateurRepository;
+import cesi.sourcesapi.Services.AuthServices;
 
 @RestController
 @RequestMapping("/api")
@@ -25,6 +27,9 @@ public class AuthController {
 	
 	@Autowired
 	private UtilisateurRepository utilisateurRepository;
+	
+	@Autowired
+	private AuthServices authServices;
 	
 	/*
 	@PostMapping("/auth")
@@ -45,6 +50,11 @@ public class AuthController {
     public List<Utilisateur> fetchUtilisateurs(){
         return utilisateurRepository.findAll();
     }
+	
+	@PostMapping("/auth")
+	public ResponseEntity<Object> authenticate(@RequestParam String mail, @RequestParam String pwd) {
+		return new ResponseEntity<Object>(authServices.getAuth(mail, pwd), HttpStatus.OK);
+	}
 	
 	@PostMapping("/utilisateurs")
 	public ResponseEntity<Object> createUtilisateur(@RequestBody Utilisateur utilisateur) {
