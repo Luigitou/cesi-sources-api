@@ -14,11 +14,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Privilege")
 public class Privilege {
+	
+	public Privilege() {}
 
 	public Privilege(String type) {
 		super();
 		this.type = type;
-		this.statut = new HashSet<>();
 	}
 
 	@Id

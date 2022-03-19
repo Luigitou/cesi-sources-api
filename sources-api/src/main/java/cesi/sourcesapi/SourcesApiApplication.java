@@ -1,6 +1,7 @@
 package cesi.sourcesapi;
 
-import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import cesi.sourcesapi.Model.Utilisateur;
-import cesi.sourcesapi.Services.UtilisateurService;
+import cesi.sourcesapi.Model.Privilege;
+import cesi.sourcesapi.Model.Statut;
+import cesi.sourcesapi.Repository.PrivilegeRepository;
+import cesi.sourcesapi.Repository.StatutRepository;
 
 @SpringBootApplication
 @RestController
@@ -37,24 +40,62 @@ public class SourcesApiApplication implements CommandLineRunner{
 			}
 		};
 	}
-
-	@Override
-	public void run(String... args) throws Exception {
-		
-	}
 	
-	/*
 	
 	@Autowired
-	private UtilisateurService utilisateurService;
+	private PrivilegeRepository privilegeRepository;
+	
+	@Autowired
+	private StatutRepository statutRepository;
+	
+	@Bean
+	CommandLineRunner runner() {
+		return args -> {
+				try {
+					List<Statut> listStatut = new ArrayList<Statut>();
+					List<Privilege> listPrivilege = new ArrayList<Privilege>();
+					
+					listPrivilege.addAll(privilegeRepository.findAll());
+					listStatut.addAll(statutRepository.findAll());
+					
+					if (listStatut.isEmpty() && listPrivilege.isEmpty()) {
+						
+						Privilege admin = new Privilege("admin");
+						Privilege superadmin = new Privilege("superadmin");
+						Privilege modo = new Privilege("Moderateur");
+						Privilege user = new Privilege("Utilisateur");
+						
+						Statut adminS = new Statut("admin");
+						Statut superadminS = new Statut("superadmin");
+						Statut modoS = new Statut("Moderateur");
+						Statut userS = new Statut("Utilisateur");
+						
+						/*
+						privilegeRepository.save(admin);
+						privilegeRepository.save(superadmin);
+						privilegeRepository.save(modo);
+						privilegeRepository.save(user);
+						*/
+						adminS.addPrivilege(admin);
+						superadminS.addPrivilege(superadmin);
+						modoS.addPrivilege(modo);
+						userS.addPrivilege(user);
+						
+						
+						statutRepository.save(adminS);
+						statutRepository.save(superadminS);
+						statutRepository.save(modoS);
+						statutRepository.save(userS);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			};
+		};
 
 	@Override
-	@Transactional
 	public void run(String... args) throws Exception {
-    	Utilisateur utilisateur = new Utilisateur("Bellefemine", "Louis", "louis@mail.com", "hop", "8 rue du bout du monde");
-    	utilisateur = utilisateurService.addUtilisateur(utilisateur);
+		// TODO Auto-generated method stub
+		
 	}
-	
-	*/
-
 }
