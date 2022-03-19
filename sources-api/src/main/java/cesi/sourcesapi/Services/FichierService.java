@@ -66,9 +66,9 @@ public class FichierService {
 	
 	private Fichier getDataFromFile(MultipartFile file) {
 		return new Fichier(
-				file.getOriginalFilename(), 
+				file.getResource().getFilename(), 
 				(int) file.getSize(), 
-				file.getContentType(), 
+				file.getResource().getFilename().substring(file.getResource().getFilename().lastIndexOf(".") + 1), 
 				new Date(System.currentTimeMillis()),
 				"OK"
 		);
