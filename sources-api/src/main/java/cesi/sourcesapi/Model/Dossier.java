@@ -42,7 +42,7 @@ public class Dossier {
 	private String etat;
 	
 	@ManyToOne
-	@JoinColumn(name = "Utilisateur_id", insertable = false, updatable = false) 
+	@JoinColumn(name = "Utilisateur_id", insertable = true, updatable = true) 
 	private Utilisateur utilisateur;
 	
 	@ManyToMany(cascade = { CascadeType.ALL })
