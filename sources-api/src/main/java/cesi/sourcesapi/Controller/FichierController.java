@@ -1,5 +1,6 @@
 package cesi.sourcesapi.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import cesi.sourcesapi.Model.Dossier;
 import cesi.sourcesapi.Model.Fichier;
+import cesi.sourcesapi.Model.Utilisateur;
+import cesi.sourcesapi.Repository.DossierRepository;
 import cesi.sourcesapi.Repository.FichierRepository;
+import cesi.sourcesapi.Repository.UtilisateurRepository;
 import cesi.sourcesapi.Services.FichierService;
 
 @RestController
@@ -33,16 +38,40 @@ public class FichierController {
 	@Autowired
 	private FichierService fichierService;
 	
+	@Autowired
+	private DossierRepository dossierRepository;
+	
+	@Autowired
+	private UtilisateurRepository utilisateurRepository;
+	
 	@GetMapping("/fichiers")
-    public List<Fichier> fetchUtilisateurs(){
-        return ficherRepository.findAll();
+    public List<Fichier> fetchUtilisateurs(@RequestParam String dossier, @RequestParam String mail){
+        try {
+        	Utilisateur user = utilisateurRepository.findByMail(mail).get(0);
+    		List<Dossier> folderList = dossierRepository.findByUtilisateur(user);
+    		Dossier folder = null;
+    		for (Dossier dos : folderList) {
+				if (dos.getName().equals(dossier)) {
+					folder = dos;
+				}
+			}
+    		if (folder != null) {
+    			System.out.println("hello");
+        		return ficherRepository.findByDossier(folder);
+    		}
+    		return null;
+        } catch (Exception e) {
+        	e.printStackTrace();
+			return null;
+		}
+
     }
 	
 	@PostMapping("/fichiers")
-	public String createUFichier(@RequestParam("file") MultipartFile file) {
+	public String createUFichier(@RequestParam("file") MultipartFile file, @RequestParam String dossier, @RequestParam String mail) {
 		//Fichier savedFichier = ficherRepository.save();
 		
-		fichierService.addFichier(file);
+		fichierService.addFichier(file, dossier, mail);
 		
 		return String.format("File %s upload succesfully ", file.getOriginalFilename());
 		

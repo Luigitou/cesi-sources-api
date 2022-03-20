@@ -11,4 +11,6 @@ public interface DossierRepository extends JpaRepository<Dossier, Integer>{
 
 	List<Dossier> findByUtilisateur(Utilisateur utilisateur);
 	
+	List<Dossier> findByName(String name);
+	
 }

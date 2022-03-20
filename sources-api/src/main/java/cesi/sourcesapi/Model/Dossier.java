@@ -19,6 +19,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Dossier")
 public class Dossier {
+	
+	public Dossier() {}
 
 	public Dossier(String name, String etat) {
 		super();
@@ -99,6 +101,10 @@ public class Dossier {
 
 	public void setDossiersEnfant(Set<Dossier> dossiersEnfant) {
 		this.dossiersEnfant = dossiersEnfant;
+	}
+	
+	public void addDossierEnfant(Dossier enfant) {
+		this.dossiersEnfant.add(enfant);
 	}
 
 	public Date getDateCreation() {
