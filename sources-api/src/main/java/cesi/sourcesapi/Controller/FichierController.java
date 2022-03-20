@@ -1,10 +1,16 @@
 package cesi.sourcesapi.Controller;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.net.http.HttpHeaders;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -84,15 +90,20 @@ public class FichierController {
 		//return new ResponseEntity<Object>(savedFichier, HttpStatus.OK);
 	}
 	
-	@GetMapping("/fichiers/{id}")
-	public ResponseEntity<Object> getFichierById(@PathVariable("id") int id) {
-		
-			Fichier fichier = ficherRepository.findById(id).get();
-			if(fichier != null) {
-				return new ResponseEntity<Object>(fichier, HttpStatus.OK);				
-			} else {
-				return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
-			}
+	@GetMapping("/fichiers/download")
+	public ResponseEntity<Resource> getFichierById(@RequestParam String nom) {
+		try {
+			String uploadDir = "/uploads/";
+			String realPathToUpload = "/home/louis/API - cesi" + uploadDir;
+			java.io.File file = new java.io.File(realPathToUpload + nom);
+			InputStreamResource i = new InputStreamResource(new FileInputStream(file));
+			org.springframework.http.HttpHeaders headers = new org.springframework.http.HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+			return new ResponseEntity<Resource>(i, headers, HttpStatus.OK);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
 	}
 	
 	@PutMapping("/fichiers/{id}")

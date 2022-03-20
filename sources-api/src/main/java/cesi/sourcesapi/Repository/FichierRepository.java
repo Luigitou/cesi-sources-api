@@ -11,4 +11,6 @@ public interface FichierRepository extends JpaRepository<Fichier, Integer>{
 
 	List<Fichier> findByDossier(Dossier dossier);
 	
+	List<Fichier> findByNom(String nom);
+	
 }
