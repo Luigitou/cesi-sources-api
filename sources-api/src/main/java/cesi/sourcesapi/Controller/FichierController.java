@@ -1,5 +1,6 @@
 package cesi.sourcesapi.Controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class FichierController {
 	private UtilisateurRepository utilisateurRepository;
 	
 	@GetMapping("/fichiers")
-    public List<Fichier> fetchUtilisateurs(@RequestParam String dossier, @RequestParam String mail){
+    public List<String> fetchUtilisateurs(@RequestParam String dossier, @RequestParam String mail){
         try {
         	Utilisateur user = utilisateurRepository.findByMail(mail).get(0);
     		List<Dossier> folderList = dossierRepository.findByUtilisateur(user);
@@ -56,8 +57,13 @@ public class FichierController {
 				}
 			}
     		if (folder != null) {
-    			System.out.println("hello");
-        		return ficherRepository.findByDossier(folder);
+    			List<String> res = new ArrayList<>();
+        		 List<Fichier> list = ficherRepository.findByDossier(folder);
+        		 for (Fichier fichier : list) {
+        			 System.out.println(fichier.getNom());
+					res.add(new File(fichier.getNom(), fichier.getDateCreation(), fichier.getTaille(), fichier.getType(), user.getNom()).toString());
+				}
+        		 return res;
     		}
     		return null;
         } catch (Exception e) {
@@ -102,5 +108,27 @@ public class FichierController {
 			ficherRepository.deleteById(id);
 			
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);	
+	}
+	
+	private class File {
+		private String nom;
+		private Date date;
+		private int taille;
+		private String type;
+		private String user;
+		
+		public File(String nom, Date date, int taille, String type, String user) {
+			super();
+			this.nom = nom;
+			this.date = date;
+			this.taille = taille;
+			this.type = type;
+			this.user= user;
+		}
+		
+		public String toString() {
+			return String.format("{\"nom\": \"%s\", \"date\": \"%s\", \"taille\": \"%s\", \"type\": \"%s\", \"user\": \"%s\"}", nom, date.toString(), taille, type, user);
+		}
+		
 	}
 }
