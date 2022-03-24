@@ -1,8 +1,16 @@
 package cesi.sourcesapi.Controller;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.net.http.HttpHeaders;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +26,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import cesi.sourcesapi.Model.Dossier;
 import cesi.sourcesapi.Model.Fichier;
+import cesi.sourcesapi.Model.Utilisateur;
+import cesi.sourcesapi.Repository.DossierRepository;
 import cesi.sourcesapi.Repository.FichierRepository;
+import cesi.sourcesapi.Repository.UtilisateurRepository;
 import cesi.sourcesapi.Services.FichierService;
 
 @RestController
@@ -33,31 +45,65 @@ public class FichierController {
 	@Autowired
 	private FichierService fichierService;
 	
+	@Autowired
+	private DossierRepository dossierRepository;
+	
+	@Autowired
+	private UtilisateurRepository utilisateurRepository;
+	
 	@GetMapping("/fichiers")
-    public List<Fichier> fetchUtilisateurs(){
-        return ficherRepository.findAll();
+    public List<String> fetchUtilisateurs(@RequestParam String dossier, @RequestParam String mail){
+        try {
+        	Utilisateur user = utilisateurRepository.findByMail(mail).get(0);
+    		List<Dossier> folderList = dossierRepository.findByUtilisateur(user);
+    		Dossier folder = null;
+    		for (Dossier dos : folderList) {
+				if (dos.getName().equals(dossier)) {
+					folder = dos;
+				}
+			}
+    		if (folder != null) {
+    			List<String> res = new ArrayList<>();
+        		 List<Fichier> list = ficherRepository.findByDossier(folder);
+        		 for (Fichier fichier : list) {
+        			 System.out.println(fichier.getNom());
+					res.add(new File(fichier.getNom(), fichier.getDateCreation(), fichier.getTaille(), fichier.getType(), user.getNom()).toString());
+				}
+        		 return res;
+    		}
+    		return null;
+        } catch (Exception e) {
+        	e.printStackTrace();
+			return null;
+		}
+
     }
 	
 	@PostMapping("/fichiers")
-	public String createUFichier(@RequestParam("file") MultipartFile file) {
+	public String createUFichier(@RequestParam("file") MultipartFile file, @RequestParam String dossier, @RequestParam String mail) {
 		//Fichier savedFichier = ficherRepository.save();
 		
-		fichierService.addFichier(file);
+		fichierService.addFichier(file, dossier, mail);
 		
 		return String.format("File %s upload succesfully ", file.getOriginalFilename());
 		
 		//return new ResponseEntity<Object>(savedFichier, HttpStatus.OK);
 	}
 	
-	@GetMapping("/fichiers/{id}")
-	public ResponseEntity<Object> getFichierById(@PathVariable("id") int id) {
-		
-			Fichier fichier = ficherRepository.findById(id).get();
-			if(fichier != null) {
-				return new ResponseEntity<Object>(fichier, HttpStatus.OK);				
-			} else {
-				return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
-			}
+	@GetMapping("/fichiers/download")
+	public ResponseEntity<Resource> getFichierById(@RequestParam String nom) {
+		try {
+			String uploadDir = "/uploads/";
+			String realPathToUpload = "/home/louis/API - cesi" + uploadDir;
+			java.io.File file = new java.io.File(realPathToUpload + nom);
+			InputStreamResource i = new InputStreamResource(new FileInputStream(file));
+			org.springframework.http.HttpHeaders headers = new org.springframework.http.HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+			return new ResponseEntity<Resource>(i, headers, HttpStatus.OK);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
 	}
 	
 	@PutMapping("/fichiers/{id}")
@@ -73,5 +119,27 @@ public class FichierController {
 			ficherRepository.deleteById(id);
 			
 			return new ResponseEntity<HttpStatus>(HttpStatus.OK);	
+	}
+	
+	private class File {
+		private String nom;
+		private Date date;
+		private int taille;
+		private String type;
+		private String user;
+		
+		public File(String nom, Date date, int taille, String type, String user) {
+			super();
+			this.nom = nom;
+			this.date = date;
+			this.taille = taille;
+			this.type = type;
+			this.user= user;
+		}
+		
+		public String toString() {
+			return String.format("{\"nom\": \"%s\", \"date\": \"%s\", \"taille\": \"%s\", \"type\": \"%s\", \"user\": \"%s\"}", nom, date.toString(), taille, type, user);
+		}
+		
 	}
 }

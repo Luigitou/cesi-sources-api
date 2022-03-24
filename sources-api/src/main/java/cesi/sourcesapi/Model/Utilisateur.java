@@ -21,14 +21,14 @@ public class Utilisateur {
 	
 	public Utilisateur(){}
 	
-	public Utilisateur(String nom, String prenom, String mail, String password, String adresse) {
+	public Utilisateur(String nom, String prenom, String mail, String password, String adresse, Statut statut) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
 		this.mail = mail;
 		this.password = password;
 		this.adresse = adresse;
-		this.statut = null;
+		this.statut = statut;
 	}
 
 	@Id
@@ -52,7 +52,7 @@ public class Utilisateur {
 	
 	//Owning side of the relationship, prevent inconsistencies
 	@ManyToOne
-	@JoinColumn(name = "Statut_id", insertable = false, updatable = false) 
+	@JoinColumn(name = "Statut_id", insertable = true, updatable = true) 
 	private Statut statut;
 	
 	@ManyToMany(cascade = { CascadeType.ALL })
