@@ -2,8 +2,11 @@ package cesi.sourcesapi.Controller;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.http.HttpHeaders;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -97,10 +100,14 @@ public class FichierController {
 			String realPathToUpload = "/home/louis/API - cesi" + uploadDir;
 			java.io.File file = new java.io.File(realPathToUpload + nom);
 			InputStreamResource i = new InputStreamResource(new FileInputStream(file));
+			String mimeType = Files.probeContentType(file.toPath());
 			org.springframework.http.HttpHeaders headers = new org.springframework.http.HttpHeaders();
-			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+			headers.setContentType(MediaType.parseMediaTypes(mimeType).get(0));
+			System.out.println(headers.getContentType());
 			return new ResponseEntity<Resource>(i, headers, HttpStatus.OK);
 		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<Resource>(HttpStatus.NOT_FOUND);
