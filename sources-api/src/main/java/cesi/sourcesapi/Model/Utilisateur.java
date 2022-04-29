@@ -1,11 +1,17 @@
 package cesi.sourcesapi.Model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -15,14 +21,14 @@ public class Utilisateur {
 	
 	public Utilisateur(){}
 	
-	public Utilisateur(String nom, String prenom, String mail, String password, String adresse) {
+	public Utilisateur(String nom, String prenom, String mail, String password, String adresse, Statut statut) {
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
 		this.mail = mail;
 		this.password = password;
 		this.adresse = adresse;
-		this.statut = null;
+		this.statut = statut;
 	}
 
 	@Id
@@ -46,8 +52,16 @@ public class Utilisateur {
 	
 	//Owning side of the relationship, prevent inconsistencies
 	@ManyToOne
-	@JoinColumn(name = "Statut_id", insertable = false, updatable = false) 
+	@JoinColumn(name = "Statut_id", insertable = true, updatable = true) 
 	private Statut statut;
+	
+	@ManyToMany(cascade = { CascadeType.ALL })
+	@JoinTable(
+		name = "Utilisateur_Utilisateur",
+		joinColumns = { @JoinColumn(name = "id_utilisateur")},
+		inverseJoinColumns = { @JoinColumn(name = "id_ami")}
+	)
+	private Set<Utilisateur> ami = new HashSet<>();
 
 	public int getId() {
 		return id;
@@ -105,5 +119,16 @@ public class Utilisateur {
 		this.statut = statut;
 	}
 	
+	public Set<Utilisateur> getAmi() {
+		return ami;
+	}
+
+	public void setAmi(Set<Utilisateur> ami) {
+		this.ami = ami;
+	}
+	
+	public void addAmi(Utilisateur amiAjoute) {
+		this.ami.add(amiAjoute);
+	}
 	
 }

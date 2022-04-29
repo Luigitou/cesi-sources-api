@@ -17,11 +17,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Statut")
 public class Statut {
+	
+	public Statut() {}
 
 	public Statut(String name) {
 		super();
 		this.name = name;
-		this.privileges = new HashSet<>();
 	}
 
 	@Id
@@ -61,6 +62,10 @@ public class Statut {
 
 	public void setPrivileges(Set<Privilege> privileges) {
 		this.privileges = privileges;
+	}
+	
+	public void addPrivilege(Privilege privilege) {
+		this.privileges.add(privilege);
 	}
 	
 	

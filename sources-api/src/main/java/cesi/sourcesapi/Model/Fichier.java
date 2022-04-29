@@ -26,6 +26,16 @@ public class Fichier {
 		this.etat = etat;
 		this.dossier = null;
 	}
+	
+	public Fichier(String nom, int taille, String type, Date dateCreation, String etat, Dossier dossier) {
+		super();
+		this.nom = nom;
+		this.taille = taille;
+		this.type = type;
+		this.dateCreation = dateCreation;
+		this.etat = etat;
+		this.dossier = dossier;
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,7 +58,7 @@ public class Fichier {
 	
 	//Owning side of the relationship, prevent inconsistencies
 	@ManyToOne
-	@JoinColumn(name = "Dossier_id", insertable = false, updatable = false) 
+	@JoinColumn(name = "Dossier_id", insertable = true, updatable = true) 
 	private Dossier dossier;
 
 	public int getId() {

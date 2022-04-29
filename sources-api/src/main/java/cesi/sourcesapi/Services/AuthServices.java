@@ -3,6 +3,8 @@ package cesi.sourcesapi.Services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import cesi.sourcesapi.Model.Utilisateur;
@@ -14,7 +16,7 @@ public class AuthServices {
 	@Autowired
 	private UtilisateurRepository utilisateurRepository;
 	
-	public String getAuth(String mail, String pwd) {
+	public ResponseEntity<Object> getAuth(String mail, String pwd) {
 		List<Utilisateur> list = utilisateurRepository.findAll();
 
 		System.out.println(list);
@@ -22,16 +24,16 @@ public class AuthServices {
 		if (list.size() > 0) {
 			for (Utilisateur utilisateur : list) {
 				if (utilisateur.getMail().equals(mail) && utilisateur.getPassword().equals(pwd)) {
-					return new Auth(
+					return new ResponseEntity<Object>(new Auth(
 						list.get(0).getNom(),
 						list.get(0).getPrenom(), 
 						list.get(0).getMail(), 
 						list.get(0).getAdresse()
-					).toString();
+					).toString(), HttpStatus.OK);
 				}
 			}
 		}
-		return "User not found";
+		return new ResponseEntity<Object>("{\"error\": \"User not found !\"}", HttpStatus.UNAUTHORIZED);
 	}
 	
 	private class Auth {

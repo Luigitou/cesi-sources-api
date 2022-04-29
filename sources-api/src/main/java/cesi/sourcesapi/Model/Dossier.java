@@ -1,23 +1,31 @@
 package cesi.sourcesapi.Model;
 
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Dossier")
 public class Dossier {
+	
+	public Dossier() {}
 
-	public Dossier(String name, Date dateCreation, String etat) {
+	public Dossier(String name, String etat) {
 		super();
 		this.name = name;
-		this.dateCreation = dateCreation;
+		this.dateCreation = new Date(System.currentTimeMillis());
 		this.etat = etat;
 		this.utilisateur = null;
 	}
@@ -36,8 +44,16 @@ public class Dossier {
 	private String etat;
 	
 	@ManyToOne
-	@JoinColumn(name = "Utilisateur_id", insertable = false, updatable = false) 
+	@JoinColumn(name = "Utilisateur_id", insertable = true, updatable = true) 
 	private Utilisateur utilisateur;
+	
+	@ManyToMany(cascade = { CascadeType.ALL })
+	@JoinTable(
+		name = "Dossier_Dossier",
+		joinColumns = { @JoinColumn(name = "id_dossier_parent")},
+		inverseJoinColumns = { @JoinColumn(name = "id_dossier_enfant")}
+	)
+	private Set<Dossier> dossiersEnfant = new HashSet<>();
 
 	public int getId() {
 		return id;
@@ -77,6 +93,22 @@ public class Dossier {
 
 	public void setUtilisateur(Utilisateur utilisateur) {
 		this.utilisateur = utilisateur;
+	}
+
+	public Set<Dossier> getDossiersEnfant() {
+		return dossiersEnfant;
+	}
+
+	public void setDossiersEnfant(Set<Dossier> dossiersEnfant) {
+		this.dossiersEnfant = dossiersEnfant;
+	}
+	
+	public void addDossierEnfant(Dossier enfant) {
+		this.dossiersEnfant.add(enfant);
+	}
+
+	public Date getDateCreation() {
+		return dateCreation;
 	}
 	
 }

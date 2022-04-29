@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import cesi.sourcesapi.Model.Dossier;
+import cesi.sourcesapi.Model.Statut;
 import cesi.sourcesapi.Model.Utilisateur;
+import cesi.sourcesapi.Repository.DossierRepository;
+import cesi.sourcesapi.Repository.StatutRepository;
 import cesi.sourcesapi.Repository.UtilisateurRepository;
 import cesi.sourcesapi.Services.AuthServices;
 
@@ -29,22 +33,13 @@ public class AuthController {
 	private UtilisateurRepository utilisateurRepository; // FIXME : pas de repository dans le controller
 	
 	@Autowired
+	private DossierRepository dossierRepository;
+	
+	@Autowired
+	private StatutRepository statutRepository;
+	
+	@Autowired
 	private AuthServices authServices;
-	
-	/*
-	@PostMapping("/auth")
-	public ResponseEntity<User> authenticate() {
-		User user = 
-		return ResponseEntity.ok().body(null);
-	}
-	*/
-	
-	/*
-	@PostMapping("createUser")
-	public void addUser() {
-		Utilisateur user = new Utilisateur("Bellefemine", "Louis", "louis@mail.com", "hop", "8 rue du bout du monde");
-		
-	}*/
 	
 	@GetMapping("/utilisateurs")
     public List<Utilisateur> fetchUtilisateurs(){
@@ -53,14 +48,22 @@ public class AuthController {
 	
 	@PostMapping("/auth")
 	public ResponseEntity<Object> authenticate(@RequestParam String mail, @RequestParam String pwd) {
-		return new ResponseEntity<Object>(authServices.getAuth(mail, pwd), HttpStatus.OK);
+		return authServices.getAuth(mail, pwd);
 	}
 	
 	@PostMapping("/utilisateurs")
 	public ResponseEntity<Object> createUtilisateur(@RequestBody Utilisateur utilisateur) {
-		Utilisateur savedUtilisateur = utilisateurRepository.save(utilisateur);
+		Statut statut = statutRepository.findByName("Utilisateur").get(0);
+		Utilisateur newUser = utilisateur;
+		newUser.setStatut(statut);
+		utilisateurRepository.save(newUser);
 		
-		return new ResponseEntity<Object>(savedUtilisateur, HttpStatus.OK);
+		Dossier dossier = new Dossier("base", "OK");
+		dossier.setUtilisateur(newUser);
+		
+		dossierRepository.save(dossier);
+		
+		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 	
 	@GetMapping("/utilisateurs/{id}")
