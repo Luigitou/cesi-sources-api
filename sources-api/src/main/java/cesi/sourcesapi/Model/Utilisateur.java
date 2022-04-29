@@ -1,6 +1,7 @@
 package cesi.sourcesapi.Model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -61,7 +62,8 @@ public class Utilisateur {
 		joinColumns = { @JoinColumn(name = "id_utilisateur")},
 		inverseJoinColumns = { @JoinColumn(name = "id_ami")}
 	)
-	private Set<Utilisateur> ami = new HashSet<>();
+	// private Set<Utilisateur> amis = new HashSet<>();
+	private Set<Utilisateur> amis;
 
 	public int getId() {
 		return id;
@@ -118,17 +120,17 @@ public class Utilisateur {
 	public void setStatut(Statut statut) {
 		this.statut = statut;
 	}
-	
-	public Set<Utilisateur> getAmi() {
-		return ami;
-	}
 
-	public void setAmi(Set<Utilisateur> ami) {
-		this.ami = ami;
+	public Set<Utilisateur> getAmi(Integer id_ami) {
+    return amis;
+}
+
+	public void setAmi(Set<Utilisateur> amis) {
+		this.amis = amis;
 	}
 	
-	public void addAmi(Utilisateur amiAjoute) {
-		this.ami.add(amiAjoute);
-	}
+	// public void addAmi(Utilisateur ami) {
+	// 	this.amis.add(ami);
+	// }
 	
 }
