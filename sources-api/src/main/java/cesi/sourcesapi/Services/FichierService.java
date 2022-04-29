@@ -2,14 +2,10 @@ package cesi.sourcesapi.Services;
 
 import java.io.File;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import cesi.sourcesapi.Model.Dossier;
@@ -31,9 +27,6 @@ public class FichierService {
 	@Autowired
 	private UtilisateurRepository utilisateurRepository;
 	
-	@Autowired
-	private HttpServletRequest request;
-	
 	public Fichier addFichier(MultipartFile fichier, String dossier, String mail) {
 		try {
 			boolean good = saveFileOnDisk(fichier);
@@ -54,7 +47,7 @@ public class FichierService {
 		if (!file.isEmpty()) {
 			try {
 				String uploadDir = "/uploads/";
-				String realPathToUpload = "/home/louis/API - cesi" + uploadDir;//request.getServletContext().getRealPath(uploadDir);
+				String realPathToUpload = "/home/louis/API - cesi" + uploadDir; //request.getServletContext().getRealPath(uploadDir);
 				System.out.println(realPathToUpload);
 			
 				if (! new File(realPathToUpload).exists()) {

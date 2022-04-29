@@ -1,7 +1,5 @@
 package cesi.sourcesapi.Model;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -51,7 +49,6 @@ public class Utilisateur {
 	@Column(name = "adresse", nullable = false)
 	private String adresse;
 	
-	//Owning side of the relationship, prevent inconsistencies
 	@ManyToOne
 	@JoinColumn(name = "Statut_id", insertable = true, updatable = true) 
 	private Statut statut;
@@ -62,7 +59,6 @@ public class Utilisateur {
 		joinColumns = { @JoinColumn(name = "id_utilisateur")},
 		inverseJoinColumns = { @JoinColumn(name = "id_ami")}
 	)
-	// private Set<Utilisateur> amis = new HashSet<>();
 	private Set<Utilisateur> amis;
 
 	public int getId() {
@@ -128,9 +124,5 @@ public class Utilisateur {
 	public void setAmi(Set<Utilisateur> amis) {
 		this.amis = amis;
 	}
-	
-	// public void addAmi(Utilisateur ami) {
-	// 	this.amis.add(ami);
-	// }
-	
+
 }

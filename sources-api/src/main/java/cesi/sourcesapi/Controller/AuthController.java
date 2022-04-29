@@ -1,9 +1,6 @@
 package cesi.sourcesapi.Controller;
 
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -70,59 +67,6 @@ public class AuthController {
 		
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
-
-	 // Liste des amis
-	 @RequestMapping(
-		value = "/{id_ami}/ami",
-		method = RequestMethod.GET,
-		produces = "application/json"
-		)
-		
-		@ResponseStatus(HttpStatus.OK)
-		public List<Utilisateur> afficherLeschoix(
-				@PathVariable(value = "id_ami") Integer id_ami
-		){
-			List<Utilisateur> listAmis = utilisateurRepository.choixAmi(id_ami);
-
-			return listAmis;
-		}
-
-	/*
-	@GetMapping("/ami")
-	public List<String> fetchAmis(@RequestParam String mail) {
-		Utilisateur user = utilisateurRepository.findByMail(mail).get(0);
-		List<Utilisateur> listAmis = utilisateurRepository.findByUtilisateur(user);
-		List<String> res = new ArrayList<>();
-		for (Utilisateur amisAjoute : listAmis) {
-			if (amisAjoute.getMail().equals(mail)) {
-				for (Utilisateur UserAmi : amisAjoute.getAmi()) {
-					res.add(new Ami(UserAmi.getNom(), UserAmi.getPrenom(), UserAmi.getMail(), ((Utilisateur) UserAmi.getAmi()).getNom()).toString());
-				}
-			}
-		}
-		return res;
-	}
-	
-	private class Ami {
-		private String name;
-		private String prenom;
-		private String mail;
-		private String adresse;
-		
-		public Ami(String name, String prenom, String mail, String adresse) {
-			super();
-			this.name = name;
-			this.prenom = prenom;
-			this.mail = mail;
-			this.adresse = adresse;
-		}
-		
-		public String toString() {
-			return String.format("{\"nom\": \"%s\", \"prenom\": \"%s\", \"mail\": \"%s\"}", name, prenom, mail, adresse);
-		}
-		
-	}
-	*/
 	
 	@GetMapping("/utilisateurs/{id}")
 	public ResponseEntity<Object> getUtilisateurById(@PathVariable("id") int id) {
@@ -157,5 +101,14 @@ public class AuthController {
 		} catch(Exception ex) {
 			return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
 		}
+	}
+
+	@RequestMapping(value = "/{id_ami}/ami", method = RequestMethod.GET, produces = "application/json")
+	@ResponseStatus(HttpStatus.OK)
+	public List<Utilisateur> afficherLeschoix(
+		@PathVariable(value = "id_ami") Integer id_ami
+	){
+		List<Utilisateur> listAmis = utilisateurRepository.choixAmi(id_ami);
+		return listAmis;
 	}
 }
