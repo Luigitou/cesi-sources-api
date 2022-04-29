@@ -16,7 +16,7 @@ import cesi.sourcesapi.Model.Utilisateur;
 import cesi.sourcesapi.Services.UtilisateurService;
 
 @SpringBootApplication
-@RestController
+@RestController  // FIXME : Retirer le controller du Main
 public class SourcesApiApplication implements CommandLineRunner{
 	
 	@RequestMapping("/api")

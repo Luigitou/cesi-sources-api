@@ -26,7 +26,7 @@ import cesi.sourcesapi.Services.AuthServices;
 public class AuthController {
 	
 	@Autowired
-	private UtilisateurRepository utilisateurRepository;
+	private UtilisateurRepository utilisateurRepository; // FIXME : pas de repository dans le controller
 	
 	@Autowired
 	private AuthServices authServices;
