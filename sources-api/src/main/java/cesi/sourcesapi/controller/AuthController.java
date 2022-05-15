@@ -1,4 +1,4 @@
-/*package cesi.sourcesapi.Controller;
+/*package cesi.sourcesapi.controller;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -21,10 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import cesi.sourcesapi.Model.Statut;
-import cesi.sourcesapi.Model.Utilisateur;
-import cesi.sourcesapi.Repository.StatutRepository;
-import cesi.sourcesapi.Repository.UtilisateurRepository;
+import cesi.sourcesapi.model.Statut;
+import cesi.sourcesapi.model.Utilisateur;
+import cesi.sourcesapi.repository.StatutRepository;
+import cesi.sourcesapi.repository.UtilisateurRepository;
+
 
 @RestController
 @RequestMapping("/api")
@@ -44,7 +45,7 @@ public class AuthController {
 	
 	@PostMapping("/utilisateurs")
 	public ResponseEntity<Object> createUtilisateur(@RequestBody Utilisateur utilisateur) {
-		Statut statut = statutRepository).findByName("Utilisateur").get(0);
+		Statut statut = statutRepository.findByName("Utilisateur").get(0);
 		Utilisateur newUser = utilisateur;
 		newUser.setStatut(statut);
 		utilisateurRepository.save(newUser);
@@ -52,4 +53,5 @@ public class AuthController {
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 	
-}*/
+}
+*/

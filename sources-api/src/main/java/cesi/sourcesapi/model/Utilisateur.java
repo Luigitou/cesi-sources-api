@@ -37,7 +37,7 @@ public class Utilisateur {
 	private Statut statut;
 
 	public Utilisateur() {
-	
+		super();
 	}
 	
 	public Utilisateur(String nom, String prenom, String mail, String password, String adresse, Statut statut) {

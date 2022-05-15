@@ -10,6 +10,6 @@ import cesi.sourcesapi.model.Statut;
 @Repository
 public interface StatutRepository extends JpaRepository<Statut, Integer> {
 	
-	List<Statut> findByName(String nom);
+	List<Statut> findByName(String name);
 
 }

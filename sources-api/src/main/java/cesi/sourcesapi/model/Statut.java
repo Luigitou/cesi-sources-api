@@ -16,17 +16,33 @@ public class Statut {
 	private int id;
 	
 	@Column(name = "nom", nullable = false)
-	private String nom ;
+	private String name;
 
 	public Statut() {
-		
+		super();
 	}
 	
-	public Statut(String nom) {
+	public Statut(String name) {
 		
 		super();
-		this.nom = nom;
+		this.name = name;
 		
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getNom() {
+		return name;
+	}
+
+	public void setNom(String nom) {
+		this.name = nom;
 	}
 	
 }
