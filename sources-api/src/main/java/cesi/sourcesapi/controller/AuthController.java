@@ -1,4 +1,4 @@
-/*package cesi.sourcesapi.controller;
+package cesi.sourcesapi.controller;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class AuthController {
     public List<Utilisateur> fetchUtilisateurs(){
         return utilisateurRepository.findAll();
     }
-	
+/*	
 	@PostMapping("/utilisateurs")
 	public ResponseEntity<Object> createUtilisateur(@RequestBody Utilisateur utilisateur) {
 		Statut statut = statutRepository.findByName("Utilisateur").get(0);
@@ -52,6 +52,5 @@ public class AuthController {
 		
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
-	
+*/	
 }
-*/
