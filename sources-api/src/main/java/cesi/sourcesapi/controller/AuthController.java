@@ -53,4 +53,37 @@ public class AuthController {
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 */	
+	
+	// Liste des amis
+	 @RequestMapping(
+		value = "/{id_ami}/ami",
+		method = RequestMethod.GET,
+		produces = "application/json"
+	 )
+		
+	@ResponseStatus(HttpStatus.OK)
+	public List<Utilisateur> afficherLeschoix(
+		@PathVariable(value = "id_ami") Integer id_ami
+	){
+		List<Utilisateur> listAmis = utilisateurRepository.choixAmi(id_ami);
+
+		return listAmis;
+	}
+	 
+	 // Ajouter ami
+	/* @RequestMapping(
+		value = "/ami",
+		method = RequestMethod.GET,
+		produces = "application/json"
+	 )
+				
+	@ResponseStatus(HttpStatus.OK)
+	public ResponseEntity<Object> ajouterAmi(){
+		ResponseEntity<Object> ami =  utilisateurRepository.insertAmi(null, null);
+		
+		return ami;
+	}*/
+	
+	// Supprimer ami
+	 
 }
