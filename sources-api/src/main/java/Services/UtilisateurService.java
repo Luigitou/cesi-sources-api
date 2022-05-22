@@ -1,4 +1,4 @@
-package cesi.sourcesapi.services;
+package Services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +15,6 @@ public class UtilisateurService {
 	public Utilisateur addUtilisateur(Utilisateur utilisateur) {
 		
 		return utilisateurRepository.save(utilisateur);
-		
+	
 	}
 }
