@@ -32,12 +32,12 @@ public class FichierController {
 	
 	 // Get all fichier
     @GetMapping("/fichier")
-    public ResponseEntity<List<Fichier>> getAllUsers() {
+    public ResponseEntity<List<Fichier>> getAllFiles() {
 
         try {
-            List<Fichier> users = new ArrayList<Fichier>();
-            FichierRepository.findAll().forEach(users::add);
-            return new ResponseEntity<>(users, HttpStatus.OK);
+            List<Fichier> files = new ArrayList<Fichier>();
+            FichierRepository.findAll().forEach(files::add);
+            return new ResponseEntity<>(files, HttpStatus.OK);
         } catch (Exception e) {
             throw new InternalError(e.getMessage());
         }
