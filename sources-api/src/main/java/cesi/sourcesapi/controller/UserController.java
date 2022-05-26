@@ -1,25 +1,20 @@
 package cesi.sourcesapi.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import cesi.sourcesapi.exception.InternalServerError;
-import cesi.sourcesapi.exception.UserNotFound;
+import cesi.sourcesapi.model.Statut;
 import cesi.sourcesapi.model.Utilisateur;
+import cesi.sourcesapi.repository.StatutRepository;
 import cesi.sourcesapi.repository.UtilisateurRepository;
 
 @RestController
@@ -30,27 +25,25 @@ public class UserController {
 	@Autowired
 	UtilisateurRepository utilisateurRepository;
 	
+	@Autowired
+	StatutRepository statutRepository;
+	
 	// Create user
-    @PostMapping("/utilisateurs")
-    public ResponseEntity<Utilisateur> 
-        createUser(@RequestBody Utilisateur utilisateur) {
-        try {
-        	Utilisateur newuser = new Utilisateur(utilisateur.getNom(),
-        			utilisateur.getPrenom(), utilisateur.getMail(),
-        			utilisateur.getAdresse(), utilisateur.getPassword(),
-        			utilisateur.getStatut());
-            utilisateurRepository.save(newuser);
-            return new ResponseEntity<>
-            (newuser, HttpStatus.CREATED);
-        } catch (Exception e) {
-            throw new InternalServerError(e.getMessage());
-        }
-    }
+	@PostMapping("/utilisateurs")
+	public ResponseEntity<Object> createUtilisateur(@RequestBody Utilisateur utilisateur) {
+		Statut statut = statutRepository.findByName("Utilisateur").get(0);
+		Utilisateur newUser = utilisateur;
+		newUser.setStatut(statut);
+		utilisateurRepository.save(newUser);
+		
+		return new ResponseEntity<Object>(HttpStatus.OK);
+	}
+
     
-    // Update user
+    /*// Update user
     @PutMapping("utilisateurs/{id}")
     public ResponseEntity<Utilisateur> 
-       updateUser(@PathVariable("id") Long id,
+       updateUser(@PathVariable("id") int id,
             @RequestBody Utilisateur utilisateur) {
 
         Optional<Utilisateur> userdata = utilisateurRepository.findById(id);
@@ -85,7 +78,7 @@ public class UserController {
     // Get user by ID
     @GetMapping("/utilisateurs/{id}")
     public ResponseEntity<Utilisateur> 
-        getUserByID(@PathVariable("id") Long id) {
+        getUserByID(@PathVariable("id") int id) {
 
         Optional<Utilisateur> userdata = utilisateurRepository.findById(id);
         if (userdata.isPresent()) {
@@ -99,7 +92,7 @@ public class UserController {
     // Delete user
     @DeleteMapping("utilisateurs/{id}")
     public ResponseEntity<Utilisateur> 
-       deleteUser(@PathVariable("id") Long id) {
+       deleteUser(@PathVariable("id") int id) {
 
         Optional<Utilisateur> userdata = utilisateurRepository.findById(id);
         if (userdata.isPresent()) {
@@ -108,5 +101,5 @@ public class UserController {
         } else {
             throw new UserNotFound("Invalid User Id");
         }
-    }
+    }*/
 }

@@ -15,7 +15,7 @@ public class Utilisateur {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+	private int id;
 	
 	@Column(name = "nom", nullable = false)
 	private String nom;
@@ -26,11 +26,11 @@ public class Utilisateur {
 	@Column(name = "mail", nullable = false, length = 200)
 	private String mail;
 	
-	@Column(name = "mdp", nullable = false)
-	private String password;
-	
 	@Column(name = "adresse", nullable = false)
 	private String adresse;
+	
+	@Column(name = "mdp", nullable = false)
+	private String password;
 	
 	@ManyToOne
 	@JoinColumn(name = "Statut_id", insertable = true, updatable = true) 
@@ -40,23 +40,23 @@ public class Utilisateur {
 		super();
 	}
 	
-	public Utilisateur(String nom, String prenom, String mail, String password, String adresse, Statut statut) {
+	public Utilisateur(String nom, String prenom, String mail, String adresse, String password, Statut statut) {
 		
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
 		this.mail = mail;
-		this.password = password;
 		this.adresse = adresse;
+		this.password = password;
 		this.statut = statut;
 		
 	}
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
