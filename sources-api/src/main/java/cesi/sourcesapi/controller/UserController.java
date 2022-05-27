@@ -7,15 +7,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import cesi.sourcesapi.model.Statut;
 import cesi.sourcesapi.model.Utilisateur;
 import cesi.sourcesapi.repository.StatutRepository;
 import cesi.sourcesapi.repository.UtilisateurRepository;
+import cesi.sourcesapi.service.AuthServices;
 
 @RestController
 @RequestMapping("/api")
@@ -28,6 +31,15 @@ public class UserController {
 	@Autowired
 	StatutRepository statutRepository;
 	
+	@Autowired
+	private AuthServices authServices;
+	
+	// Authentification
+	@PostMapping("/auth")
+	public ResponseEntity<Object> authenticate(@RequestParam String mail, @RequestParam String pwd) {
+		return authServices.getAuth(mail, pwd);
+	}
+	
 	// Create user
 	@PostMapping("/utilisateurs")
 	public ResponseEntity<Object> createUtilisateur(@RequestBody Utilisateur utilisateur) {
@@ -39,7 +51,24 @@ public class UserController {
 		return new ResponseEntity<Object>(HttpStatus.OK);
 	}
 
-    
+	@GetMapping("/utilisateurs")
+    public List<Utilisateur> fetchUtilisateurs(){
+        return utilisateurRepository.findAll();
+    }
+	
+	@GetMapping("/utilisateurs/{id}")
+	public ResponseEntity<Object> getUtilisateurById(@PathVariable("id") int id) {
+		try {
+			Utilisateur utilisateur = utilisateurRepository.findById(id).get();
+			if(utilisateur != null) {
+				return new ResponseEntity<Object>(utilisateur, HttpStatus.OK);				
+			} else {
+				return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+			}
+		} catch(Exception ex) {
+			return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+		}
+	}
     /*// Update user
     @PutMapping("utilisateurs/{id}")
     public ResponseEntity<Utilisateur> 
