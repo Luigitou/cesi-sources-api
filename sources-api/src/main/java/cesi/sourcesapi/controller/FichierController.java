@@ -1,9 +1,8 @@
 
-package cesi.sourcesapi.Controller;
+package cesi.sourcesapi.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,11 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import cesi.sourcesapi.Model.Fichier;
-import cesi.sourcesapi.Repository.FichierRepository;
-import cesi.sourcesapi.Services.FichierService;
+import cesi.sourcesapi.model.Fichier;
+import cesi.sourcesapi.services.FichierService;
 
 @RestController
 @RequestMapping("/api")
@@ -28,19 +27,33 @@ import cesi.sourcesapi.Services.FichierService;
 public class FichierController {
 	
 	@Autowired
-	FichierRepository FichierRepository;
+	FichierService FichierService;
 	
-	 // Get all fichier
-    @GetMapping("/fichier")
-    public ResponseEntity<List<Fichier>> getAllFiles() {
-
+//	 // Get all fichier
+//    @GetMapping("/fichier")
+//    public ResponseEntity<List<Fichier>> getAllFiles() {
+//
+//        try {
+//            List<Fichier> files = new ArrayList<Fichier>();
+//            return new ResponseEntity<>(FichierService.getFichier().forEach(files::add);, HttpStatus.OK);
+//        } catch (Exception e) {
+//            throw new InternalError(e.getMessage());
+//        }
+//
+//    }
+    
+    
+    // Get files Containing Name
+    @GetMapping("/rechercheFichier")
+    public ResponseEntity<List<Fichier>> getFichierByNom(@RequestParam String nom){
         try {
-            List<Fichier> files = new ArrayList<Fichier>();
-            FichierRepository.findAll().forEach(files::add);
-            return new ResponseEntity<>(files, HttpStatus.OK);
+        	new ArrayList<Fichier>();
+    		return new ResponseEntity<>(FichierService.getFichier(nom), HttpStatus.OK);
         } catch (Exception e) {
             throw new InternalError(e.getMessage());
-        }
+		}
 
     }
+    
+    
 }
