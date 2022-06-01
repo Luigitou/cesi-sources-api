@@ -1,4 +1,4 @@
-package cesi.sourcesapi.Services;
+package cesi.sourcesapi.services;
 
 public class UtilisateurService {
 

@@ -1,7 +1,8 @@
-package cesi.sourcesapi.Repository;
+package cesi.sourcesapi.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import cesi.sourcesapi.Model.Utilisateur;
+
+import cesi.sourcesapi.model.Utilisateur;
 
 public interface UtilisateurRepository extends JpaRepository<Utilisateur, Integer> {
 

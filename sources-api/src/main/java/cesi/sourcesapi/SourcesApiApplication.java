@@ -1,20 +1,13 @@
 package cesi.sourcesapi;
 
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-public class SourcesApiApplication implements CommandLineRunner{
-	
-	@RequestMapping("/api")
-	public String test() {
-		return "Source API is up and running !\n";
-	}
+public class SourcesApiApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SourcesApiApplication.class, args);
@@ -28,10 +21,5 @@ public class SourcesApiApplication implements CommandLineRunner{
 				registry.addMapping("/*").allowedOrigins("http://localhost:8080");
 			}
 		};
-	}
-
-	@Override
-	public void run(String... args) throws Exception {
-		
 	}
 }

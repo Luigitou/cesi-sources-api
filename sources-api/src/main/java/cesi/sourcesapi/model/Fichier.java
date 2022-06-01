@@ -1,4 +1,4 @@
-package cesi.sourcesapi.Model;
+package cesi.sourcesapi.model;
 
 import java.sql.Date;
 
@@ -17,7 +17,7 @@ public class Fichier {
 
 	public Fichier(){}
 	
-	public Fichier(String nom, int taille, String type, Date dateCreation, String etat) {
+	public Fichier(String nom, int taille, String type, Date dateCreation, String etat, String path) {
 		super();
 		this.nom = nom;
 		this.taille = taille;
@@ -25,9 +25,10 @@ public class Fichier {
 		this.dateCreation = dateCreation;
 		this.etat = etat;
 		this.dossier = null;
+		this.path = path;
 	}
 	
-	public Fichier(String nom, int taille, String type, Date dateCreation, String etat, Dossier dossier) {
+	public Fichier(String nom, int taille, String type, Date dateCreation, String etat, Dossier dossier, String path) {
 		super();
 		this.nom = nom;
 		this.taille = taille;
@@ -35,6 +36,7 @@ public class Fichier {
 		this.dateCreation = dateCreation;
 		this.etat = etat;
 		this.dossier = dossier;
+		this.path = path;
 	}
 
 	@Id
@@ -55,6 +57,9 @@ public class Fichier {
 	
 	@Column(name = "etat", nullable = false)
 	private String etat;
+	
+	@Column(name = "path", nullable = false)
+	private String path;
 	
 	//Owning side of the relationship, prevent inconsistencies
 	@ManyToOne
@@ -107,6 +112,14 @@ public class Fichier {
 
 	public void setEtat(String etat) {
 		this.etat = etat;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 	public Dossier getDossier() {

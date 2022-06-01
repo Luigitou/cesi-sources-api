@@ -1,4 +1,4 @@
-package cesi.sourcesapi.Model;
+package cesi.sourcesapi.model;
 
 import java.sql.Date;
 import java.util.HashSet;
@@ -88,7 +88,7 @@ public class Dossier {
 	}
 	
 	public String getEtat() {
-		return name;
+		return etat;
 	}
 
 	public void setEtat(String etat) {

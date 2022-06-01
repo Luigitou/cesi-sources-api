@@ -1,4 +1,4 @@
-package cesi.sourcesapi.Model;
+package cesi.sourcesapi.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

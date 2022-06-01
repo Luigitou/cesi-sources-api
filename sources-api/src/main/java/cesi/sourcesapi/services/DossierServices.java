@@ -1,14 +1,14 @@
-package cesi.sourcesapi.Services;
+package cesi.sourcesapi.services;
 
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cesi.sourcesapi.Model.Dossier;
-import cesi.sourcesapi.Model.Utilisateur;
-import cesi.sourcesapi.Repository.DossierRepository;
-import cesi.sourcesapi.Repository.UtilisateurRepository;
+import cesi.sourcesapi.model.Dossier;
+import cesi.sourcesapi.model.Utilisateur;
+import cesi.sourcesapi.repository.DossierRepository;
+import cesi.sourcesapi.repository.UtilisateurRepository;
 
 @Service
 public class DossierServices {
@@ -38,5 +38,9 @@ public class DossierServices {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	
+	public Dossier getBase(int idUtilisateur) {
+		return dossierRepository.findByUtilisateurAndName(utilisateurRepository.findById(idUtilisateur), "Base");
 	}
 }
