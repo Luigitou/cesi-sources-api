@@ -18,12 +18,19 @@
 	
 	<properties>
 		<java.version>11</java.version>
-		<sonar.scm.disabled>true</sonar.scm.disabled>
+		
+		<sonar.login>8f9791af5635166bbae4430c2a10044eb2067d8c</sonar.login>
+	    <sonar.host.url>http://localhost:9000</sonar.host.url>
+	    
+	    <sonar.scm.provider>git</sonar.scm.provider>
+	   	<sonar.scm.disabled>true</sonar.scm.disabled>
+	   	
 	    <sonar.sourceEncoding>${project.build.sourceEncoding}</sonar.sourceEncoding>
 	    <sonar.language>java</sonar.language>
 	    <sonar.java.source>${maven.compiler.source}</sonar.java.source>
 	    <sonar.tests>src/test/java</sonar.tests>
 	    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+	    
 	</properties>
 	
 	<dependencies>

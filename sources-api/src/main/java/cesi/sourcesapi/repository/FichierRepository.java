@@ -8,7 +8,6 @@ import cesi.sourcesapi.model.Fichier;
 
 public interface FichierRepository extends JpaRepository<Fichier, Integer>{
 
-	List<Fichier> findByNomContaining(String nom);
 	List<Fichier> findByNomContainingIgnoreCase(String nom);
 	
 }
