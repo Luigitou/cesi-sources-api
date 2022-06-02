@@ -1,18 +1,16 @@
 package cesi.sourcesapi.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import cesi.sourcesapi.model.Statut;
+
 import cesi.sourcesapi.model.Utilisateur;
 import cesi.sourcesapi.repository.StatutRepository;
 import cesi.sourcesapi.repository.UtilisateurRepository;
@@ -23,7 +21,7 @@ import cesi.sourcesapi.repository.UtilisateurRepository;
 public class UserController {
 	
 	@Autowired
-	UtilisateurRepository utilisateurRepository;
+	private UtilisateurRepository utilisateurRepository;
 	
 	@Autowired
 	StatutRepository statutRepository;
@@ -31,9 +29,9 @@ public class UserController {
 	// Create user
 	@PostMapping("/utilisateurs")
 	public ResponseEntity<Object> createUtilisateur(@RequestBody Utilisateur utilisateur) {
-		Statut statut = statutRepository.findByName("Utilisateur").get(0);
+		
 		Utilisateur newUser = utilisateur;
-		newUser.setStatut(statut);
+
 		utilisateurRepository.save(newUser);
 		
 		return new ResponseEntity<Object>(HttpStatus.OK);
