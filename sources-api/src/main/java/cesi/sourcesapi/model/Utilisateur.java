@@ -32,24 +32,22 @@ public class Utilisateur {
 	@Column(name = "mdp", nullable = false)
 	private String password;
 	
-	@ManyToOne
+	/*@ManyToOne
 	@JoinColumn(name = "Statut_id", insertable = true, updatable = true) 
-	private Statut statut;
+	private Statut statut;*/
 
 	public Utilisateur() {
 		super();
 	}
 	
-	public Utilisateur(String nom, String prenom, String mail, String adresse, String password, Statut statut) {
+	public Utilisateur(String nom, String prenom, String mail, String adresse, String password) {
 		
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
 		this.mail = mail;
 		this.adresse = adresse;
-		this.password = password;
-		this.statut = statut;
-		
+		this.password = password;		
 	}
 
 	public int getId() {
@@ -100,13 +98,6 @@ public class Utilisateur {
 		this.adresse = adresse;
 	}
 
-	public Statut getStatut() {
-		return statut;
-	}
-
-	public void setStatut(Statut statut) {
-		this.statut = statut;
-	}
 	
 	
 }

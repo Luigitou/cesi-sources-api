@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import cesi.sourcesapi.model.Statut;
 import cesi.sourcesapi.model.Utilisateur;
 import cesi.sourcesapi.repository.StatutRepository;
 import cesi.sourcesapi.repository.UtilisateurRepository;
@@ -43,9 +42,7 @@ public class UserController {
 	// Create user
 	@PostMapping("/utilisateurs")
 	public ResponseEntity<Object> createUtilisateur(@RequestBody Utilisateur utilisateur) {
-		Statut statut = statutRepository.findByName("Utilisateur").get(0);
 		Utilisateur newUser = utilisateur;
-		newUser.setStatut(statut);
 		utilisateurRepository.save(newUser);
 		
 		return new ResponseEntity<Object>(HttpStatus.OK);
