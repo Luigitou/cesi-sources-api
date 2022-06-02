@@ -5,13 +5,26 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "Utilisateur") 
 public class Utilisateur {
+
+	public Utilisateur() {
+		super();
+	}
+	
+	public Utilisateur(String nom, String prenom, String mail, String adresse, String password) {
+		
+		super();
+		this.nom = nom;
+		this.prenom = prenom;
+		this.mail = mail;
+		this.adresse = adresse;
+		this.password = password;		
+	}
+
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,20 +48,6 @@ public class Utilisateur {
 	/*@ManyToOne
 	@JoinColumn(name = "Statut_id", insertable = true, updatable = true) 
 	private Statut statut;*/
-
-	public Utilisateur() {
-		super();
-	}
-	
-	public Utilisateur(String nom, String prenom, String mail, String adresse, String password) {
-		
-		super();
-		this.nom = nom;
-		this.prenom = prenom;
-		this.mail = mail;
-		this.adresse = adresse;
-		this.password = password;		
-	}
 
 	public int getId() {
 		return id;
@@ -98,6 +97,5 @@ public class Utilisateur {
 		this.adresse = adresse;
 	}
 
-	
 	
 }

@@ -56,7 +56,7 @@ public class UserController {
 	@GetMapping("/utilisateurs/{id}")
 	public ResponseEntity<Object> getUtilisateurById(@PathVariable("id") int id) {
 		try {
-			Utilisateur utilisateur = utilisateurRepository.findById(id).get();
+			Utilisateur utilisateur = utilisateurRepository.findById(id);
 			if(utilisateur != null) {
 				return new ResponseEntity<Object>(utilisateur, HttpStatus.OK);				
 			} else {
