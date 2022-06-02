@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,7 @@ import cesi.sourcesapi.service.AuthServices;
 public class UserController {
 	
 	@Autowired
-	UtilisateurRepository utilisateurRepository;
+	private UtilisateurRepository utilisateurRepository;
 	
 	@Autowired
 	StatutRepository statutRepository;
@@ -42,7 +43,9 @@ public class UserController {
 	// Create user
 	@PostMapping("/utilisateurs")
 	public ResponseEntity<Object> createUtilisateur(@RequestBody Utilisateur utilisateur) {
+
 		Utilisateur newUser = utilisateur;
+
 		utilisateurRepository.save(newUser);
 		
 		return new ResponseEntity<Object>(HttpStatus.OK);
