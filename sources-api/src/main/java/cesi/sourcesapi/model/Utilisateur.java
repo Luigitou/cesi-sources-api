@@ -17,6 +17,21 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "Utilisateur") 
 public class Utilisateur {
+
+	public Utilisateur() {
+		super();
+	}
+	
+	public Utilisateur(String nom, String prenom, String mail, String adresse, String password) {
+		
+		super();
+		this.nom = nom;
+		this.prenom = prenom;
+		this.mail = mail;
+		this.adresse = adresse;
+		this.password = password;		
+	}
+
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,19 +43,19 @@ public class Utilisateur {
 	@Column(name = "prenom", nullable = false)
 	private String prenom;
 	
-	@Column(name = "mail", nullable = false)
+	@Column(name = "mail", nullable = false, length = 200)
 	private String mail;
-	
-	@Column(name = "mdp", nullable = false)
-	private String password;
 	
 	@Column(name = "adresse", nullable = false)
 	private String adresse;
 	
-	@ManyToOne
-	@JoinColumn(name = "Statut_id", insertable = true, updatable = true) 
-	private Statut statut;
+	@Column(name = "mdp", nullable = false)
+	private String password;
 	
+	/*@ManyToOne
+	@JoinColumn(name = "Statut_id", insertable = true, updatable = true) 
+	private Statut statut;*/
+
 	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinTable(
 		name = "Utilisateur_Utilisateur",
@@ -48,22 +63,6 @@ public class Utilisateur {
 		inverseJoinColumns = { @JoinColumn(name = "id_ami")}
 	)
 	private Set<Utilisateur> amis;
-
-	public Utilisateur() {
-		super();
-	}
-	
-	public Utilisateur(String nom, String prenom, String mail, String password, String adresse, Statut statut) {
-		
-		super();
-		this.nom = nom;
-		this.prenom = prenom;
-		this.mail = mail;
-		this.password = password;
-		this.adresse = adresse;
-		this.statut = statut;
-		
-	}
 
 	public int getId() {
 		return id;
@@ -113,20 +112,11 @@ public class Utilisateur {
 		this.adresse = adresse;
 	}
 
-	public Statut getStatut() {
-		return statut;
-	}
-
-	public void setStatut(Statut statut) {
-		this.statut = statut;
-	}
-	
 	public Set<Utilisateur> getAmi(Integer id_ami) {
-	    return amis;
+		return amis;
 	}
 
 	public void setAmi(Set<Utilisateur> amis) {
 		this.amis = amis;
-	}
-	
+	}	
 }

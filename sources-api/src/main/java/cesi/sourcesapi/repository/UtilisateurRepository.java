@@ -1,7 +1,7 @@
 package cesi.sourcesapi.repository;
 
-import java.util.List;
 
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -30,4 +30,7 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur, Intege
 	  nativeQuery = true)
 	ResponseEntity<Object> insertAmi(@Param("id_utilisateur") Integer id_utilisateur, @Param("id_ami") Integer id_ami);
 	*/
+
+	Utilisateur findById(int id);
+	
 }
