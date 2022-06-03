@@ -35,7 +35,7 @@ public class FichierServices {
 			Utilisateur user = utilisateurRepository.findById(idUtilisateur);
 			Dossier dossier = dossierRepository.findByIdAndUtilisateur(idDossierParent, user);
 			
-			return fichierRepository.findAll();
+			return fichierRepository.findByDossier(dossier);
 			
 		} catch (Exception e) {
 			throw e;

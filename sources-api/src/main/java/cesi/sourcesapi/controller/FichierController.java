@@ -20,21 +20,7 @@ import cesi.sourcesapi.services.FichierServices;
 public class FichierController {
 	
 	@Autowired
-	private FichierServices fichierServices;
-	
-//	 // Get all fichier
-//    @GetMapping("/fichier")
-//    public ResponseEntity<List<Fichier>> getAllFiles() {
-//
-//        try {
-//            List<Fichier> files = new ArrayList<Fichier>();
-//            return new ResponseEntity<>(FichierService.getFichier().forEach(files::add);, HttpStatus.OK);
-//        } catch (Exception e) {
-//            throw new InternalError(e.getMessage());
-//        }
-//
-//    }
-    
+	private FichierServices fichierServices;    
     
     // Get files Containing Name
     @GetMapping("/rechercheFichier")
