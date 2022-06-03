@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import cesi.sourcesapi.model.Utilisateur;
 import cesi.sourcesapi.repository.StatutRepository;
 import cesi.sourcesapi.repository.UtilisateurRepository;
-import cesi.sourcesapi.service.AuthServices;
+import cesi.sourcesapi.services.AuthServices;
 
 @RestController
 @RequestMapping("/api")

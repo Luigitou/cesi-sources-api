@@ -1,4 +1,4 @@
-package cesi.sourcesapi.service;
+package cesi.sourcesapi.services;
 
 import java.util.List;
 
