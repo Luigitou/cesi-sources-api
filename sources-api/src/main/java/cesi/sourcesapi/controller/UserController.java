@@ -92,34 +92,6 @@ public class UserController {
         }
     }
     
- // Get all Users
-    @GetMapping("/utilisateurs")
-    public ResponseEntity<List<Utilisateur>> getAllUsers() {
-
-        try {
-            List<Utilisateur> users = new ArrayList<Utilisateur>();
-            utilisateurRepository.findAll().forEach(users::add);
-            return new ResponseEntity<>(users, HttpStatus.OK);
-        } catch (Exception e) {
-            throw new InternalServerError(e.getMessage());
-        }
-
-    }
-
-    // Get user by ID
-    @GetMapping("/utilisateurs/{id}")
-    public ResponseEntity<Utilisateur> 
-        getUserByID(@PathVariable("id") int id) {
-
-        Optional<Utilisateur> userdata = utilisateurRepository.findById(id);
-        if (userdata.isPresent()) {
-            return new ResponseEntity<>
-                (userdata.get(), HttpStatus.OK);
-        } else {
-            throw new UserNotFound("Invalid User Id");
-        }
-
-    }
     // Delete user
     @DeleteMapping("utilisateurs/{id}")
     public ResponseEntity<Utilisateur> 
@@ -135,35 +107,23 @@ public class UserController {
     }*/
 	
 	// Liste des amis
-		 @RequestMapping(
-			value = "/{id_ami}/ami",
-			method = RequestMethod.GET,
-			produces = "application/json"
-		 )
-			
-		@ResponseStatus(HttpStatus.OK)
-		public List<Utilisateur> afficherLeschoix(
-			@PathVariable(value = "id_ami") Integer id_ami
-		){
-			List<Utilisateur> listAmis = utilisateurRepository.choixAmi(id_ami);
-	
-			return listAmis;
-		}
+	@GetMapping("/{id_ami}/ami") 
+	@ResponseStatus(HttpStatus.OK)
+	public List<Utilisateur> afficherLeschoix(@PathVariable(value = "id_ami") int id_ami){
+		List<Utilisateur> listAmis = utilisateurRepository.choixAmi(id_ami);
+
+		return listAmis;
+	}
 		 
-		 // Ajouter ami
-		/* @RequestMapping(
-			value = "/ami",
-			method = RequestMethod.GET,
-			produces = "application/json"
-		 )
-					
-		@ResponseStatus(HttpStatus.OK)
-		public ResponseEntity<Object> ajouterAmi(){
-			ResponseEntity<Object> ami =  utilisateurRepository.insertAmi(null, null);
+	// Ajouter ami
+	
+	@PostMapping("/ami")
+	public ResponseEntity<Object> ajouterAmi(@RequestBody int id_utilisateur, @RequestBody int id_ami){
+		ResponseEntity<Object> ami =  utilisateurRepository.insertAmi(id_utilisateur, id_ami);
 			
-			return ami;
-		}*/
+		return ami;
+	}
 		
-		// Supprimer ami
+	// Supprimer ami
 		 
 }
