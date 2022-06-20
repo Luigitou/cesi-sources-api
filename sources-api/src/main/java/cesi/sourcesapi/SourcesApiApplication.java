@@ -14,7 +14,7 @@ public class SourcesApiApplication {
 		SpringApplication.run(SourcesApiApplication.class, args);
 	}
 	
-	@Bean
+	/*@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
@@ -22,5 +22,5 @@ public class SourcesApiApplication {
 				registry.addMapping("/*").allowedOrigins("http://localhost:8080");
 			}
 		};
-	}
+	}*/
 }

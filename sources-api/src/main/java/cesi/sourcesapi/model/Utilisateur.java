@@ -1,10 +1,17 @@
-package cesi.sourcesapi.model;
+ package cesi.sourcesapi.model;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -15,11 +22,12 @@ public class Utilisateur {
 		super();
 	}
 	
-	public Utilisateur(String nom, String prenom, String mail, String adresse, String password) {
+	public Utilisateur(String nom, String prenom, String username, String mail, String adresse, String password) {
 		
 		super();
 		this.nom = nom;
 		this.prenom = prenom;
+		this.username = username;
 		this.mail = mail;
 		this.adresse = adresse;
 		this.password = password;		
@@ -36,6 +44,9 @@ public class Utilisateur {
 	@Column(name = "prenom", nullable = false)
 	private String prenom;
 	
+	@Column(name = "username", nullable = false)
+	private String username;
+	
 	@Column(name = "mail", nullable = false, length = 200)
 	private String mail;
 	
@@ -45,10 +56,20 @@ public class Utilisateur {
 	@Column(name = "mdp", nullable = false)
 	private String password;
 	
+	
+	/*@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(	name = "user_roles", 
+				joinColumns = @JoinColumn(name = "user_id"), 
+				inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();*/
+	
 	/*@ManyToOne
 	@JoinColumn(name = "Statut_id", insertable = true, updatable = true) 
 	private Statut statut;*/
 
+	@OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Dossier> dossierEnfant = new HashSet<>(); 
+	
 	public int getId() {
 		return id;
 	}
@@ -97,5 +118,25 @@ public class Utilisateur {
 		this.adresse = adresse;
 	}
 
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String userName) {
+		this.username = username;
+	}
+
+	
+
+
+
+
+
+	/*public Set<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}*/
 	
 }
