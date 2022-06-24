@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import cesi.sourcesapi.model.Fichier;
+import cesi.sourcesapi.repository.FichierRepository;
 import cesi.sourcesapi.services.FichierServices;
 
 @RestController
@@ -41,6 +42,35 @@ public class FichierController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+
+	@GetMapping("/getImages")
+	public List<Fichier> getImages(String type){
+		List<String> typeExtension = new ArrayList<>();
+		typeExtension.add("png");
+		typeExtension.add("jpg");
+		
+		for(String typeExt : typeExtension) {
+			if(typeExt == "png") {
+				type = "png";
+			} else {
+				type = "jpg";
+			}
+		}
+
+		return fichierServices.getFichierByType(type);
+	}
+	
+	@GetMapping("/getDocuments")
+	public List<Fichier> getDocuments(String type){
+		type = "pdf";
+		return fichierServices.getFichierByType(type);
+	}
+	
+	@GetMapping("/getVideos")
+	public List<Fichier> getVideos(String type){
+		type = "mp4";
+		return fichierServices.getFichierByType(type);
 	}
 	
 	@PostMapping("/createFichier")

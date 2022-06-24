@@ -83,5 +83,9 @@ public class FichierServices {
 	public List<Fichier> getFichiers(String nom){
 		return fichierRepository.findByNomContainingIgnoreCase(nom);
 	}
-
+	
+	public List<Fichier> getFichierByType(String type){
+		return fichierRepository.findByType(type);
+	}
+	
 }
