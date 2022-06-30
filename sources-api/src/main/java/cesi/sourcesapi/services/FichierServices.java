@@ -87,5 +87,4 @@ public class FichierServices {
 	public List<Fichier> getFichierByType(String type){
 		return fichierRepository.findByType(type);
 	}
-	
 }

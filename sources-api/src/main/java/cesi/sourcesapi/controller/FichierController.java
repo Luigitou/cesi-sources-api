@@ -2,7 +2,10 @@
 package cesi.sourcesapi.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import cesi.sourcesapi.model.Fichier;
-import cesi.sourcesapi.repository.FichierRepository;
 import cesi.sourcesapi.services.FichierServices;
 
 @RestController
@@ -45,34 +47,30 @@ public class FichierController {
 	}
 
 	@GetMapping("/getImages")
-	public List<Fichier> getImages(String type){
-		List<String> typeExtension = new ArrayList<>();
-		typeExtension.add("png");
-		typeExtension.add("jpg");
+	public List<Fichier> getImages(){       
+		List<Fichier> types = new ArrayList<>();
 		
-		for(String typeExt : typeExtension) {
-			if(typeExt == "png") {
-				type = "png";
-			} else {
-				type = "jpg";
-			}
-		}
-
-		return fichierServices.getFichierByType(type);
+		types.addAll(fichierServices.getFichierByType("jpg"));
+		types.addAll(fichierServices.getFichierByType("png"));
+		
+		return types; 
 	}
 	
 	@GetMapping("/getDocuments")
-	public List<Fichier> getDocuments(String type){
-		type = "pdf";
-		return fichierServices.getFichierByType(type);
+	public List<Fichier> getDocuments(){
+		List<Fichier> types = new ArrayList<>();
+		
+		types.addAll(fichierServices.getFichierByType("pdf"));
+		types.addAll(fichierServices.getFichierByType("doc"));
+		
+		return types;
 	}
 	
 	@GetMapping("/getVideos")
-	public List<Fichier> getVideos(String type){
-		type = "mp4";
-		return fichierServices.getFichierByType(type);
+	public List<Fichier> getVideos(){
+		 return fichierServices.getFichierByType("mp4");
 	}
-	
+
 	@PostMapping("/createFichier")
 	public ResponseEntity<Object> createFichiers(@RequestParam int idUtilisateur, @RequestParam int idDossierParent, @RequestParam int statut, @RequestParam("file") MultipartFile file) {
 		try {
