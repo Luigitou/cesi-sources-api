@@ -1,6 +1,6 @@
 package cesi.sourcesapi.model;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -62,7 +61,7 @@ public class Utilisateur {
 		joinColumns = { @JoinColumn(name = "id_utilisateur")},
 		inverseJoinColumns = { @JoinColumn(name = "id_ami")}
 	)
-	private Set<Utilisateur> amis;
+	private List<Utilisateur> amis;
 
 	public int getId() {
 		return id;
@@ -112,11 +111,11 @@ public class Utilisateur {
 		this.adresse = adresse;
 	}
 
-	public Set<Utilisateur> getAmi(Integer id_ami) {
+	public List<Utilisateur> getAmi(Integer id_ami) {
 		return amis;
 	}
 
-	public void setAmi(Set<Utilisateur> amis) {
+	public void setAmi(List<Utilisateur> amis) {
 		this.amis = amis;
 	}	
 }

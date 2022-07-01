@@ -1,5 +1,6 @@
 package cesi.sourcesapi.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import cesi.sourcesapi.model.Utilisateur;
 import cesi.sourcesapi.repository.StatutRepository;
 import cesi.sourcesapi.repository.UtilisateurRepository;
 import cesi.sourcesapi.services.AuthServices;
+import cesi.sourcesapi.services.UtilisateurService;
 
 @RestController
 @RequestMapping("/api")
@@ -116,12 +119,14 @@ public class UserController {
 	}
 		 
 	// Ajouter ami
-	
-	@PostMapping("/ami")
-	public ResponseEntity<Object> ajouterAmi(@RequestBody int id_utilisateur, @RequestBody int id_ami){
-		ResponseEntity<Object> ami =  utilisateurRepository.insertAmi(id_utilisateur, id_ami);
-			
-		return ami;
+	@PostMapping("/addAmi")
+	public int[] ajouterAmi(@RequestParam int id_utilisateur, @RequestParam int id_ami){
+		int[] userAndAmi = new int[2];
+		
+		userAndAmi[0] = id_utilisateur;
+		userAndAmi[1] = id_ami;
+		
+		return userAndAmi;
 	}
 		
 	// Supprimer ami
