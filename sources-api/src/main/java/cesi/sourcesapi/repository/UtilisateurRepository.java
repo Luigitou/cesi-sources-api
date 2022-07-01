@@ -12,11 +12,9 @@ import cesi.sourcesapi.model.Utilisateur;
 
 @Repository
 public interface UtilisateurRepository extends JpaRepository<Utilisateur, Integer>{
-
-	//List<Utilisateur> findByMail(String mail);
-	//Utilisateur findUserByMail(String mail);
-    Utilisateur findUserByUsername(String username);
-	//Boolean existsByMail(String mail);
+	Boolean existsByUsername(String username);
+	Boolean existsByMail(String mail);
+    Optional<Utilisateur> findUserByUsername(String username);
 	Utilisateur findById(int id);
 	
 }

@@ -1,5 +1,7 @@
  package cesi.sourcesapi.model;
 
+//import lombok.*;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,24 +16,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "Utilisateur") 
-public class Utilisateur {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-	public Utilisateur() {
-		super();
-	}
-	
-	public Utilisateur(String nom, String prenom, String username, String mail, String adresse, String password) {
-		
-		super();
-		this.nom = nom;
-		this.prenom = prenom;
-		this.username = username;
-		this.mail = mail;
-		this.adresse = adresse;
-		this.password = password;		
-	}
+@Entity
+@Table(name = "Utilisateur")
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Utilisateur {
 
 	
 	@Id
@@ -68,75 +66,7 @@ public class Utilisateur {
 	private Statut statut;*/
 
 	@OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Dossier> dossierEnfant = new HashSet<>(); 
-	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getNom() {
-		return nom;
-	}
-
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
-
-	public String getPrenom() {
-		return prenom;
-	}
-
-	public void setPrenom(String prenom) {
-		this.prenom = prenom;
-	}
-
-	public String getMail() {
-		return mail;
-	}
-
-	public void setMail(String mail) {
-		this.mail = mail;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getAdresse() {
-		return adresse;
-	}
-
-	public void setAdresse(String adresse) {
-		this.adresse = adresse;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String userName) {
-		this.username = username;
-	}
-
-	
+    private Set<Dossier> dossierEnfant = new HashSet<>();
 
 
-
-
-
-	/*public Set<Role> getRoles() {
-		return roles;
-	}
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}*/
-	
 }

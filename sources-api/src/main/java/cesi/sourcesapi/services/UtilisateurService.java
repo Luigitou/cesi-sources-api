@@ -1,17 +1,16 @@
 package cesi.sourcesapi.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import cesi.sourcesapi.dto.Response;
+import cesi.sourcesapi.dto.UpdateUserDto;
+import cesi.sourcesapi.dto.UtilisateurDto;
 import cesi.sourcesapi.model.Utilisateur;
-import cesi.sourcesapi.repository.UtilisateurRepository;
 
-@Service
-public class UtilisateurService {
-  @Autowired
-	private UtilisateurRepository utilisateurRepository;
-	
-	public Utilisateur addUtilisateur(Utilisateur utilisateur) {
-		return utilisateurRepository.save(utilisateur);
-	}
+import java.util.List;
+import java.util.Optional;
+
+public interface UtilisateurService {
+    Response getUserByUsername(String username);
+    Response getAllUtilisateurs();
+    Response deleteUtilisateur(String username);
+    Response updateUtilisateur(String username, UpdateUserDto dto);
 }

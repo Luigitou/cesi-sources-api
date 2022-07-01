@@ -1,17 +1,19 @@
 package cesi.sourcesapi.config;
+
 /**
- * modification des fonctionnalites de spring security par defaut classe WebSecurityConfigurerAdapter
- * definition de filtres de requete HTTP et une reponse par defaut lorsque l'utilisateur n'est pas authentifie. 
- * agit comme un middleware pour toutes nos requetes HTTP
- **/
+ * La classe WebSecurityConfig est annotée avec @EnableWebSecurity pour
+ * activer la prise en charge de la sécurité Web de Spring Security
+ * et fournir l'intégration Spring MVC.
+ * Il étend également WebSecurityConfigurerAdapter et remplace quelques-unes de ses méthodes pour
+ * définir certaines spécificités de la configuration de la sécurité Web.
+ */
+import cesi.sourcesapi.util.CustomAuthFilter;
 import cesi.sourcesapi.util.JwtRequestFilter;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -20,12 +22,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService jwtUserDetailsService;
@@ -41,23 +39,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(jwtUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.csrf().disable();
+        httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        httpSecurity.authorizeRequests().antMatchers("/api/public/**").permitAll();
+        httpSecurity.authorizeRequests().anyRequest().authenticated();
+        httpSecurity.addFilter(new CustomAuthFilter(authenticationManagerBean()));
+        httpSecurity.addFilterBefore(jwtRequestFilter,UsernamePasswordAuthenticationFilter.class);
+    }
     @Bean
     @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
+    public AuthenticationManager authenticationManagerBean() throws Exception{
         return super.authenticationManagerBean();
     }
 
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf().disable().authorizeRequests().antMatchers("/api/*").permitAll().anyRequest().authenticated().and().exceptionHandling().authenticationEntryPoint((request, response, authException) -> {
-            Map<String, Object> responseMap = new HashMap<>();
-            ObjectMapper mapper = new ObjectMapper();
-            response.setStatus(401);
-            responseMap.put("error", true);
-            responseMap.put("message", "Unauthorized");
-            response.setHeader("content-type", "application/json");
-            String responseMsg = mapper.writeValueAsString(responseMap);
-            response.getWriter().write(responseMsg);
-        }).and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-    }
 }

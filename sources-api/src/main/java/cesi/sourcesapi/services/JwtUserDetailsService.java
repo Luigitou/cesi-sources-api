@@ -23,7 +23,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        cesi.sourcesapi.model.Utilisateur user = userRepository.findUserByUsername(username);
+        cesi.sourcesapi.model.Utilisateur user = userRepository.findUserByUsername(username).get();
         List<GrantedAuthority> authorityList = new ArrayList<>();
         //authorityList.add(new SimpleGrantedAuthority("USER_ROLE"));
         return new User(user.getUsername(), user.getPassword(), authorityList);
