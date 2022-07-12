@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,6 +34,9 @@ public class UserController {
 	
 	@Autowired
 	private UtilisateurRepository utilisateurRepository;
+	
+//	@Autowired
+//	private UtilisateurService utilisateurServices;
 	
 	@Autowired
 	StatutRepository statutRepository;
@@ -113,22 +118,26 @@ public class UserController {
 	@GetMapping("/{id_ami}/ami") 
 	@ResponseStatus(HttpStatus.OK)
 	public List<Utilisateur> afficherLeschoix(@PathVariable(value = "id_ami") int id_ami){
-		List<Utilisateur> listAmis = utilisateurRepository.choixAmi(id_ami);
+		List<Utilisateur> listAmis = utilisateurRepository.getAmi(id_ami);
 
 		return listAmis;
 	}
 		 
 	// Ajouter ami
-	@PostMapping("/addAmi")
-	public int[] ajouterAmi(@RequestParam int id_utilisateur, @RequestParam int id_ami){
-		int[] userAndAmi = new int[2];
-		
-		userAndAmi[0] = id_utilisateur;
-		userAndAmi[1] = id_ami;
-		
-		return userAndAmi;
-	}
-		
-	// Supprimer ami
-		 
+//	@PostMapping("/addAmi")
+//	public List<Utilisateur> ajouterAmi(@RequestParam int id_utilisateur, @RequestParam int id_ami){
+////		int[] userAndAmi = new int[2];
+////		
+////		userAndAmi[0] = id_utilisateur;
+////		userAndAmi[1] = id_ami;
+////		
+////		return userAndAmi;
+//		return utilisateurServices.addAmi(id_utilisateur, id_ami);
+//	}
+//		
+//	// Supprimer ami
+//	@DeleteMapping("/deleteAmi") 
+//	public List<Utilisateur> supprimerAmi(@RequestParam int id_utilisateur, @RequestParam int id_ami){
+//		return utilisateurServices.deleteAmi(id_utilisateur, id_ami);
+//	}
 }

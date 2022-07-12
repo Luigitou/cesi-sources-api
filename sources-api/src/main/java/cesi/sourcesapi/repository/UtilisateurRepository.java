@@ -12,16 +12,16 @@ import cesi.sourcesapi.model.Utilisateur;
 public interface UtilisateurRepository extends JpaRepository<Utilisateur, Integer>{
 	
 	List<Utilisateur> findByMail(String mail);	
+
+	Utilisateur findById(int id);
 	
 	// Afficher un ami;
 	@Query(value = "SELECT * FROM utilisateur_utilisateur, utilisateur WHERE id = id_ami;", nativeQuery = true)
-	List<Utilisateur> choixAmi(@Param("id_ami") Integer id_ami);
+	List<Utilisateur> getAmi(@Param("id_ami") Integer id_ami);
 	
 	// Ajouter un ami
-	List<Utilisateur> findUtilisateurById(Integer id_utilisateur);
-	List<Utilisateur> findAmiById(Integer id_ami);
-	
+//	List<Utilisateur> addAmi(Integer id_utilisateur, Integer id_ami);
+
 	// Supprimer un ami
-	Utilisateur findById(int id);
-	
+//	List<Utilisateur> deleteAmi(Integer id_utilisateur, Integer id_ami);
 }

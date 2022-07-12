@@ -14,11 +14,11 @@ public class UtilisateurService {
 		return utilisateurRepository.save(utilisateur);
 	}
 	
-	public List<Utilisateur> getUtilisateurId(Integer id_utilisateur) {
-		return utilisateurRepository.findUtilisateurById(id_utilisateur);
-	}
-	
-	public List<Utilisateur> getAmiId(Integer id_ami) {
-		return utilisateurRepository.findAmiById(id_ami);
-	}
+//	public List<Utilisateur> addAmi(Integer id_utilisateur, Integer id_ami) {
+//		return utilisateurRepository.addAmi(id_utilisateur, id_ami);
+//	}
+//	
+//	public List<Utilisateur> deleteAmi(Integer id_utilisateur, Integer id_ami) {
+//		return utilisateurRepository.deleteAmi(id_utilisateur, id_ami);
+//	}
 }
