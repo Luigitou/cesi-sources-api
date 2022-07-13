@@ -51,10 +51,6 @@ public class Utilisateur {
 	@Column(name = "mdp", nullable = false)
 	private String password;
 	
-	/*@ManyToOne
-	@JoinColumn(name = "Statut_id", insertable = true, updatable = true) 
-	private Statut statut;*/
-
 	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinTable(
 		name = "Utilisateur_Utilisateur",
@@ -111,11 +107,15 @@ public class Utilisateur {
 		this.adresse = adresse;
 	}
 
-	public List<Utilisateur> getAmi(Integer id_ami) {
+	public List<Utilisateur> getAmi() {
 		return amis;
 	}
 
-	public void setAmi(List<Utilisateur> amis) {
-		this.amis = amis;
+	public void setAmi(Utilisateur ami) {
+		this.amis.add(ami);
+	}	
+	
+	public void deleteAmi(Utilisateur ami) {
+		this.amis.remove(ami);
 	}	
 }

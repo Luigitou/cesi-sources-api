@@ -1,6 +1,5 @@
 package cesi.sourcesapi.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,18 +13,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
 import cesi.sourcesapi.model.Utilisateur;
 import cesi.sourcesapi.repository.StatutRepository;
 import cesi.sourcesapi.repository.UtilisateurRepository;
 import cesi.sourcesapi.services.AuthServices;
-import cesi.sourcesapi.services.UtilisateurService;
 
 @RestController
 @RequestMapping("/api")
@@ -34,9 +28,6 @@ public class UserController {
 	
 	@Autowired
 	private UtilisateurRepository utilisateurRepository;
-	
-//	@Autowired
-//	private UtilisateurService utilisateurServices;
 	
 	@Autowired
 	StatutRepository statutRepository;
@@ -115,29 +106,36 @@ public class UserController {
     }*/
 	
 	// Liste des amis
-	@GetMapping("/{id_ami}/ami") 
+	@GetMapping("/ami") 
 	@ResponseStatus(HttpStatus.OK)
-	public List<Utilisateur> afficherLeschoix(@PathVariable(value = "id_ami") int id_ami){
-		List<Utilisateur> listAmis = utilisateurRepository.getAmi(id_ami);
-
-		return listAmis;
+	public List<Utilisateur> listeAmis(@RequestParam int id_utilisateur){
+		Utilisateur user = utilisateurRepository.findById(id_utilisateur);
+		
+		return user.getAmi();
 	}
 		 
 	// Ajouter ami
-//	@PostMapping("/addAmi")
-//	public List<Utilisateur> ajouterAmi(@RequestParam int id_utilisateur, @RequestParam int id_ami){
-////		int[] userAndAmi = new int[2];
-////		
-////		userAndAmi[0] = id_utilisateur;
-////		userAndAmi[1] = id_ami;
-////		
-////		return userAndAmi;
-//		return utilisateurServices.addAmi(id_utilisateur, id_ami);
-//	}
-//		
-//	// Supprimer ami
-//	@DeleteMapping("/deleteAmi") 
-//	public List<Utilisateur> supprimerAmi(@RequestParam int id_utilisateur, @RequestParam int id_ami){
-//		return utilisateurServices.deleteAmi(id_utilisateur, id_ami);
-//	}
+	@PostMapping("/addAmi")
+	public ResponseEntity<Object> ajouterAmi(@RequestParam int id_utilisateur, @RequestParam int id_ami){
+		
+		Utilisateur user = utilisateurRepository.findById(id_utilisateur);
+		Utilisateur userAmi = utilisateurRepository.findById(id_ami);
+		
+		user.setAmi(userAmi);
+		utilisateurRepository.save(user);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+		
+	// Supprimer ami
+	@DeleteMapping("/deleteAmi") 
+	public ResponseEntity<Object> supprimerAmi(@RequestParam int id_utilisateur, @RequestParam int id_ami){
+		Utilisateur user = utilisateurRepository.findById(id_utilisateur);
+		Utilisateur userAmi = utilisateurRepository.findById(id_ami);
+		
+		user.deleteAmi(userAmi);
+		utilisateurRepository.save(user);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }
