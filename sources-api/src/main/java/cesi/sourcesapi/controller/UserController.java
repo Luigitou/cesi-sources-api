@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -13,8 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
 import cesi.sourcesapi.model.Utilisateur;
 import cesi.sourcesapi.repository.StatutRepository;
 import cesi.sourcesapi.repository.UtilisateurRepository;
@@ -90,34 +91,6 @@ public class UserController {
         }
     }
     
- // Get all Users
-    @GetMapping("/utilisateurs")
-    public ResponseEntity<List<Utilisateur>> getAllUsers() {
-
-        try {
-            List<Utilisateur> users = new ArrayList<Utilisateur>();
-            utilisateurRepository.findAll().forEach(users::add);
-            return new ResponseEntity<>(users, HttpStatus.OK);
-        } catch (Exception e) {
-            throw new InternalServerError(e.getMessage());
-        }
-
-    }
-
-    // Get user by ID
-    @GetMapping("/utilisateurs/{id}")
-    public ResponseEntity<Utilisateur> 
-        getUserByID(@PathVariable("id") int id) {
-
-        Optional<Utilisateur> userdata = utilisateurRepository.findById(id);
-        if (userdata.isPresent()) {
-            return new ResponseEntity<>
-                (userdata.get(), HttpStatus.OK);
-        } else {
-            throw new UserNotFound("Invalid User Id");
-        }
-
-    }
     // Delete user
     @DeleteMapping("utilisateurs/{id}")
     public ResponseEntity<Utilisateur> 
@@ -131,4 +104,38 @@ public class UserController {
             throw new UserNotFound("Invalid User Id");
         }
     }*/
+	
+	// Liste des amis
+	@GetMapping("/ami") 
+	@ResponseStatus(HttpStatus.OK)
+	public List<Utilisateur> listeAmis(@RequestParam int id_utilisateur){
+		Utilisateur user = utilisateurRepository.findById(id_utilisateur);
+		
+		return user.getAmi();
+	}
+		 
+	// Ajouter ami
+	@PostMapping("/addAmi")
+	public ResponseEntity<Object> ajouterAmi(@RequestParam int id_utilisateur, @RequestParam int id_ami){
+		
+		Utilisateur user = utilisateurRepository.findById(id_utilisateur);
+		Utilisateur userAmi = utilisateurRepository.findById(id_ami);
+		
+		user.setAmi(userAmi);
+		utilisateurRepository.save(user);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+		
+	// Supprimer ami
+	@DeleteMapping("/deleteAmi") 
+	public ResponseEntity<Object> supprimerAmi(@RequestParam int id_utilisateur, @RequestParam int id_ami){
+		Utilisateur user = utilisateurRepository.findById(id_utilisateur);
+		Utilisateur userAmi = utilisateurRepository.findById(id_ami);
+		
+		user.deleteAmi(userAmi);
+		utilisateurRepository.save(user);
+		
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }

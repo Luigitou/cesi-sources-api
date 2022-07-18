@@ -1,10 +1,16 @@
 package cesi.sourcesapi.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -45,9 +51,13 @@ public class Utilisateur {
 	@Column(name = "mdp", nullable = false)
 	private String password;
 	
-	/*@ManyToOne
-	@JoinColumn(name = "Statut_id", insertable = true, updatable = true) 
-	private Statut statut;*/
+	@ManyToMany(cascade = { CascadeType.ALL })
+	@JoinTable(
+		name = "Utilisateur_Utilisateur",
+		joinColumns = { @JoinColumn(name = "id_utilisateur")},
+		inverseJoinColumns = { @JoinColumn(name = "id_ami")}
+	)
+	private List<Utilisateur> amis;
 
 	public int getId() {
 		return id;
@@ -97,5 +107,15 @@ public class Utilisateur {
 		this.adresse = adresse;
 	}
 
+	public List<Utilisateur> getAmi() {
+		return amis;
+	}
+
+	public void setAmi(Utilisateur ami) {
+		this.amis.add(ami);
+	}	
 	
+	public void deleteAmi(Utilisateur ami) {
+		this.amis.remove(ami);
+	}	
 }
