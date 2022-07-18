@@ -24,7 +24,6 @@ import cesi.sourcesapi.repository.StatutRepository;
 import cesi.sourcesapi.repository.UtilisateurRepository;
 import cesi.sourcesapi.services.AuthServices;
 import cesi.sourcesapi.services.UtilisateurServices;
-import cesi.sourcesapi.services.FichierServices;
 
 @RestController
 @RequestMapping("/api")
@@ -35,8 +34,6 @@ public class UserController {
 	private UtilisateurRepository utilisateurRepository;
 	@Autowired
 	private UtilisateurServices utilisateurServices;
-	@Autowired
-	private FichierServices FichierServices;
 	
 	
 	@Autowired
@@ -143,44 +140,47 @@ public class UserController {
         }
     }*/
 
-	// Liste des favoris
-	@GetMapping("/favoris") 
-	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<Object> listeFavoris(@RequestParam int id_utilisateur){
+	// Verification 
+	@GetMapping("/FavVerif") 
+	public ResponseEntity<Object> fileAlreadyInFavorites(@RequestParam int id_utilisateur, @RequestParam int id_fichier){
 		try {
-			Utilisateur user = utilisateurServices.getUtilisateurById(id_utilisateur);
-			return new ResponseEntity(user.getFavoris(), HttpStatus.OK);
-
+			return new ResponseEntity<>(utilisateurServices.fileAlreadyInFavorites(id_fichier, id_utilisateur),HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<Object>(e, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
+	}
+	
+	
+	// Liste des favoris
+	@GetMapping("/favorites") 
+	public ResponseEntity<Object> listFavorites(@RequestParam int id_utilisateur){
+		try {
+			return new ResponseEntity<>(utilisateurServices.listFavorites(id_utilisateur),HttpStatus.ACCEPTED);
+		} catch (Exception e) {
+			return new ResponseEntity<Object>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 		 
 	// Ajouter favoris
-	@PostMapping("/addFavoris")
-	public ResponseEntity<Object> ajouterAmi(@RequestParam int id_utilisateur, @RequestParam int id_fichier){
-		
-		Utilisateur user = utilisateurServices.getUtilisateurById(id_utilisateur);
-		Fichier userFavoris = FichierServices.getFilesById(id_fichier);
-		
-		user.setFavoris(userFavoris);
-		//"Save" permet de sauvegarder l'update en BDD
-		utilisateurRepository.save(user);
-		
-		return new ResponseEntity<>(HttpStatus.OK);
+	@PostMapping("/addFavorites")
+	public ResponseEntity<Object> addFavorites(@RequestParam int id_utilisateur, @RequestParam int id_fichier){
+		try {
+			utilisateurServices.addFavorites(id_utilisateur, id_fichier);
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<Object>(e, HttpStatus.NO_CONTENT);
+		}
 	}
 		
 	// Supprimer favoris
-	@DeleteMapping("/deleteFavoris") 
-	public ResponseEntity<Object> supprimerAmi(@RequestParam int id_utilisateur, @RequestParam int id_fichier){
-
-		Utilisateur user = utilisateurServices.getUtilisateurById(id_utilisateur);
-		Fichier userFavoris = FichierServices.getFilesById(id_fichier);
-		
-		user.deleteFavoris(userFavoris);
-		utilisateurRepository.save(user);
-		
-		return new ResponseEntity<>(HttpStatus.OK);
+	@DeleteMapping("/deleteFavorites") 
+	public ResponseEntity<Object> deleteFavorites(@RequestParam int id_utilisateur, @RequestParam int id_fichier){
+		try {
+			utilisateurServices.deleteFavorites(id_utilisateur, id_fichier);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Object>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
+	
 }

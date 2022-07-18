@@ -12,7 +12,7 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8082/api/addFavoris?id_utilisateur=1&id_fichier=1",
+					"raw": "http://localhost:8082/api/addFavorites?id_utilisateur=1&id_fichier=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -20,7 +20,7 @@
 					"port": "8082",
 					"path": [
 						"api",
-						"addFavoris"
+						"addFavorites"
 					],
 					"query": [
 						{
@@ -42,7 +42,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8082/api/favoris?id_utilisateur=1",
+					"raw": "http://localhost:8082/api/favorites?id_utilisateur=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -50,7 +50,7 @@
 					"port": "8082",
 					"path": [
 						"api",
-						"favoris"
+						"favorites"
 					],
 					"query": [
 						{
@@ -68,7 +68,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8082/api/deleteFavoris?id_utilisateur=1&id_fichier=1",
+					"raw": "http://localhost:8082/api/deleteFavorites?id_utilisateur=1&id_fichier=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -76,7 +76,37 @@
 					"port": "8082",
 					"path": [
 						"api",
-						"deleteFavoris"
+						"deleteFavorites"
+					],
+					"query": [
+						{
+							"key": "id_utilisateur",
+							"value": "1"
+						},
+						{
+							"key": "id_fichier",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FavoritesVerif",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/FavVerif?id_utilisateur=1&id_fichier=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"FavVerif"
 					],
 					"query": [
 						{

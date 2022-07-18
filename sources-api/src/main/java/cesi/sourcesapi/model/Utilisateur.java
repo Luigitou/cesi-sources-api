@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -114,6 +115,10 @@ public class Utilisateur {
 		this.adresse = adresse;
 	}
 	
+	public List<Fichier> getList() {
+		return this.favoris;
+	}
+	
 	public List<Object> getFavoris() {
 		List<Object> list = new ArrayList<>();
 		
@@ -135,6 +140,7 @@ public class Utilisateur {
 	
 	public void deleteFavoris(Fichier favoris) {
 		this.favoris.remove(favoris);
-	}	
+	}
+
 	
 }
