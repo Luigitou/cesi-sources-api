@@ -1,10 +1,19 @@
 package cesi.sourcesapi.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -48,6 +57,14 @@ public class Utilisateur {
 	/*@ManyToOne
 	@JoinColumn(name = "Statut_id", insertable = true, updatable = true) 
 	private Statut statut;*/
+	
+	@ManyToMany(cascade = { CascadeType.ALL })
+	@JoinTable(
+		name = "Utilisateur_Fichier",
+		joinColumns = { @JoinColumn(name = "id_fichier")},
+		inverseJoinColumns = { @JoinColumn(name = "id_favoris")}
+	)
+	private List<Fichier> favoris = new ArrayList<>();
 
 	public int getId() {
 		return id;
@@ -96,6 +113,28 @@ public class Utilisateur {
 	public void setAdresse(String adresse) {
 		this.adresse = adresse;
 	}
-
+	
+	public List<Object> getFavoris() {
+		List<Object> list = new ArrayList<>();
+		
+		Map<String, Object> map = new HashMap<>();
+		for(int i = 0; i < favoris.size(); i++) {
+			map.put("nom", favoris.get(i).getNom());
+			map.put("dateCreation", favoris.get(i).getDateCreation());
+			map.put("etat", favoris.get(i).getEtat());
+			
+			list.add(map);
+		}
+		
+		return list;
+	}
+	
+	public void setFavoris(Fichier favoris) {
+		this.favoris.add(favoris);
+	}
+	
+	public void deleteFavoris(Fichier favoris) {
+		this.favoris.remove(favoris);
+	}	
 	
 }

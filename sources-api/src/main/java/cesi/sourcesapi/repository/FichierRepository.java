@@ -12,4 +12,6 @@ public interface FichierRepository extends JpaRepository<Fichier, Integer>{
 	List<Fichier> findByNomContainingIgnoreCase(String nom);
 
 	List<Fichier> findByDossier(Dossier dossier);
+	
+	Fichier findById(int id);
 }

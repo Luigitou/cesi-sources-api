@@ -80,8 +80,19 @@ public class FichierServices {
 		}
 	}
 
-	public List<Fichier> getFichiers(String nom){
-		return fichierRepository.findByNomContainingIgnoreCase(nom);
+	public List<Fichier> getSearchedFiles(String nom){
+		try {
+			return fichierRepository.findByNomContainingIgnoreCase(nom);
+		} catch (Exception e) {
+			return null;
+		}
 	}
-
+	
+	public Fichier getFilesById(int id){
+		try {
+			return fichierRepository.findById(id);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }
