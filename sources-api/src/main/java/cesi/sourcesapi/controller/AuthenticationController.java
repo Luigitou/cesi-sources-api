@@ -5,8 +5,6 @@ import cesi.sourcesapi.dto.UtilisateurDto;
 import cesi.sourcesapi.model.Utilisateur;
 import cesi.sourcesapi.repository.UtilisateurRepository;
 import cesi.sourcesapi.services.JwtUserDetailsService;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
