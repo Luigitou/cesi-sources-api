@@ -1,5 +1,19 @@
 package cesi.sourcesapi.controller;
 
+import cesi.sourcesapi.dto.Response;
+import cesi.sourcesapi.dto.UpdateUserDto;
+import cesi.sourcesapi.dto.UtilisateurDto;
+import cesi.sourcesapi.services.UtilisateurService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +34,17 @@ import cesi.sourcesapi.model.Utilisateur;
 import cesi.sourcesapi.repository.StatutRepository;
 import cesi.sourcesapi.repository.UtilisateurRepository;
 import cesi.sourcesapi.services.AuthServices;
+import cesi.sourcesapi.services.UtilisateurServices;
 
 @RestController
-@RequestMapping("/api")
-@CrossOrigin("http://localhost:8080")
+@RequestMapping("/users")
 public class UserController {
 	
 	@Autowired
 	private UtilisateurRepository utilisateurRepository;
+	@Autowired
+	private UtilisateurServices utilisateurServices;
+	
 	
 	@Autowired
 	StatutRepository statutRepository;
@@ -91,6 +108,47 @@ public class UserController {
         }
     }
     
+<<<<<<< HEAD
+=======
+ // Get all Users
+    @GetMapping("/utilisateurs")
+    public ResponseEntity<List<Utilisateur>> getAllUsers() {
+
+        try {
+            List<Utilisateur> users = new ArrayList<Utilisateur>();
+            utilisateurRepository.findAll().forEach(users::add);
+            return new ResponseEntity<>(users, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new InternalServerError(e.getMessage());
+        }
+
+    public UserController(UtilisateurService utilisateurService) {
+        this.utilisateurService = utilisateurService;
+    }
+
+    @GetMapping("/username/{username}")
+    public ResponseEntity<Response> getUserByUserName(@PathVariable("username")String username) {
+        Response res = utilisateurService.getUserByUsername(username);
+        return new ResponseEntity<>(res, res.getStatus());
+    }
+    @GetMapping()
+    public ResponseEntity<Response> getAllUsers() {
+        Response res = utilisateurService.getAllUtilisateurs();
+        return new ResponseEntity<>(res, res.getStatus());
+    }
+    @DeleteMapping("/username/{username}")
+    public ResponseEntity<Response> deleteUser(@PathVariable("username")String username) {
+        Response res = utilisateurService.deleteUtilisateur(username);
+        return new ResponseEntity<>(res, res.getStatus());
+    }
+    @PutMapping("/username/{username}")
+    public ResponseEntity<Response> updateUser(@PathVariable("username")String username, @Valid @RequestBody UpdateUserDto dto) {
+        Response res = utilisateurService.updateUtilisateur(username,dto);
+        return new ResponseEntity<>(res, res.getStatus());
+    }
+<<<<<<< HEAD
+=======
+>>>>>>> 3955724c94d0a2bcf1a0aa821638c0df2172a92b
     // Delete user
     @DeleteMapping("utilisateurs/{id}")
     public ResponseEntity<Utilisateur> 
@@ -137,5 +195,48 @@ public class UserController {
 		utilisateurRepository.save(user);
 		
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	// Verification 
+	@GetMapping("/FavVerif") 
+	public ResponseEntity<Object> fileAlreadyInFavorites(@RequestParam int id_utilisateur, @RequestParam int id_fichier){
+		try {
+			return new ResponseEntity<>(utilisateurServices.fileAlreadyInFavorites(id_fichier, id_utilisateur),HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Object>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	
+	// Liste des favoris
+	@GetMapping("/favorites") 
+	public ResponseEntity<Object> listFavorites(@RequestParam int id_utilisateur){
+		try {
+			return new ResponseEntity<>(utilisateurServices.listFavorites(id_utilisateur),HttpStatus.ACCEPTED);
+		} catch (Exception e) {
+			return new ResponseEntity<Object>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+		 
+	// Ajouter favoris
+	@PostMapping("/addFavorites")
+	public ResponseEntity<Object> addFavorites(@RequestParam int id_utilisateur, @RequestParam int id_fichier){
+		try {
+			utilisateurServices.addFavorites(id_utilisateur, id_fichier);
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<Object>(e, HttpStatus.NO_CONTENT);
+		}
+	}
+		
+	// Supprimer favoris
+	@DeleteMapping("/deleteFavorites") 
+	public ResponseEntity<Object> deleteFavorites(@RequestParam int id_utilisateur, @RequestParam int id_fichier){
+		try {
+			utilisateurServices.deleteFavorites(id_utilisateur, id_fichier);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<Object>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 }

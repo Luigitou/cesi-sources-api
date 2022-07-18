@@ -16,6 +16,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "Dossier")
 public class Dossier {
@@ -51,9 +53,11 @@ public class Dossier {
 	@Column(name = "etat", nullable = false)
 	private String etat;
 	
-	@ManyToOne
-	@JoinColumn(name = "Utilisateur_id", insertable = true, updatable = true) 
-	private Utilisateur utilisateur;
+	@JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "utilisateur_id", referencedColumnName = "id", nullable = false)
+    private Utilisateur utilisateur; 
+	
 	
 	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinTable(

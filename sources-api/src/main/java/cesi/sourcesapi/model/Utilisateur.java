@@ -1,6 +1,19 @@
-package cesi.sourcesapi.model;
+ package cesi.sourcesapi.model;
 
+<<<<<<< HEAD
 import java.util.List;
+=======
+//import lombok.*;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+>>>>>>> 3955724c94d0a2bcf1a0aa821638c0df2172a92b
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,27 +22,28 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+<<<<<<< HEAD
+=======
+import javax.persistence.OneToMany;
+>>>>>>> 3955724c94d0a2bcf1a0aa821638c0df2172a92b
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-@Entity
-@Table(name = "Utilisateur") 
-public class Utilisateur {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-	public Utilisateur() {
-		super();
-	}
-	
-	public Utilisateur(String nom, String prenom, String mail, String adresse, String password) {
-		
-		super();
-		this.nom = nom;
-		this.prenom = prenom;
-		this.mail = mail;
-		this.adresse = adresse;
-		this.password = password;		
-	}
+@Entity
+@Table(name = "Utilisateur")
+@Builder
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Utilisateur {
 
 	
 	@Id
@@ -42,6 +56,9 @@ public class Utilisateur {
 	@Column(name = "prenom", nullable = false)
 	private String prenom;
 	
+	@Column(name = "username", nullable = false)
+	private String username;
+	
 	@Column(name = "mail", nullable = false, length = 200)
 	private String mail;
 	
@@ -51,6 +68,7 @@ public class Utilisateur {
 	@Column(name = "mdp", nullable = false)
 	private String password;
 	
+<<<<<<< HEAD
 	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinTable(
 		name = "Utilisateur_Utilisateur",
@@ -58,14 +76,30 @@ public class Utilisateur {
 		inverseJoinColumns = { @JoinColumn(name = "id_ami")}
 	)
 	private List<Utilisateur> amis;
+=======
+	
+	/*@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(	name = "user_roles", 
+				joinColumns = @JoinColumn(name = "user_id"), 
+				inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();*/
+	
+	/*@ManyToOne
+	@JoinColumn(name = "Statut_id", insertable = true, updatable = true) 
+	private Statut statut;*/
+	
+	@ManyToMany(cascade = { CascadeType.ALL })
+	@JoinTable(
+		name = "Utilisateur_Fichier",
+		joinColumns = { @JoinColumn(name = "id_fichier")},
+		inverseJoinColumns = { @JoinColumn(name = "id_favoris")}
+	)
+	private List<Fichier> favoris = new ArrayList<>();
+>>>>>>> 3955724c94d0a2bcf1a0aa821638c0df2172a92b
 
-	public int getId() {
-		return id;
-	}
+	@OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Dossier> dossierEnfant = new HashSet<>();
 
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getNom() {
 		return nom;
@@ -105,6 +139,33 @@ public class Utilisateur {
 
 	public void setAdresse(String adresse) {
 		this.adresse = adresse;
+	}
+	
+	public List<Fichier> getList() {
+		return this.favoris;
+	}
+	
+	public List<Object> getFavoris() {
+		List<Object> list = new ArrayList<>();
+		
+		Map<String, Object> map = new HashMap<>();
+		for(int i = 0; i < favoris.size(); i++) {
+			map.put("nom", favoris.get(i).getNom());
+			map.put("dateCreation", favoris.get(i).getDateCreation());
+			map.put("etat", favoris.get(i).getEtat());
+			
+			list.add(map);
+		}
+		
+		return list;
+	}
+	
+	public void setFavoris(Fichier favoris) {
+		this.favoris.add(favoris);
+	}
+	
+	public void deleteFavoris(Fichier favoris) {
+		this.favoris.remove(favoris);
 	}
 
 	public List<Utilisateur> getAmi() {

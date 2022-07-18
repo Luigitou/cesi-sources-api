@@ -1,0 +1,126 @@
+{
+	"info": {
+		"_postman_id": "9f3feca3-76cc-4069-a0e4-03aa3ef9a704",
+		"name": "Favoris",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21222941"
+	},
+	"item": [
+		{
+			"name": "SetFavoris",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/addFavorites?id_utilisateur=1&id_fichier=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"addFavorites"
+					],
+					"query": [
+						{
+							"key": "id_utilisateur",
+							"value": "1"
+						},
+						{
+							"key": "id_fichier",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ListUserFavoris",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/favorites?id_utilisateur=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"favorites"
+					],
+					"query": [
+						{
+							"key": "id_utilisateur",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteFavoris",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/deleteFavorites?id_utilisateur=1&id_fichier=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"deleteFavorites"
+					],
+					"query": [
+						{
+							"key": "id_utilisateur",
+							"value": "1"
+						},
+						{
+							"key": "id_fichier",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FavoritesVerif",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/FavVerif?id_utilisateur=1&id_fichier=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"FavVerif"
+					],
+					"query": [
+						{
+							"key": "id_utilisateur",
+							"value": "1"
+						},
+						{
+							"key": "id_fichier",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
