@@ -80,7 +80,7 @@ public class FichierServices {
 		}
 	}
 
-	public List<Fichier> getSearchedFiles(String nom){
+	public List<Fichier> getFichiers(String nom){
 		try {
 			return fichierRepository.findByNomContainingIgnoreCase(nom);
 		} catch (Exception e) {

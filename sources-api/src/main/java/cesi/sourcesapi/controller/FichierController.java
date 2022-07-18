@@ -2,6 +2,7 @@
 package cesi.sourcesapi.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import cesi.sourcesapi.model.Fichier;
+import cesi.sourcesapi.model.Utilisateur;
 import cesi.sourcesapi.services.FichierServices;
 import cesi.sourcesapi.repository.FichierRepository;
 
@@ -29,7 +31,7 @@ public class FichierController {
     public ResponseEntity<List<Fichier>> getFichiersPublicByNom(@RequestParam String nom, String etat){
     	List<Fichier> returnFiles = new ArrayList<Fichier>();;
         try {
-        	List<Fichier> fichierList = fichierServices.getSearchedFiles(nom);
+        	List<Fichier> fichierList = fichierServices.getFichiers(nom);
         	for(Fichier files : fichierList) {
     			if (files.getEtat().equals("Public")) {
     				returnFiles.add(files);
@@ -50,7 +52,7 @@ public class FichierController {
 		}
 	}  
 	
-	@PostMapping("/createFichier")
+	@PostMapping("/create Fichier")
 	public ResponseEntity<Object> createFichiers(@RequestParam int idUtilisateur, @RequestParam int idDossierParent, @RequestParam int statut, @RequestParam("file") MultipartFile file) {
 		try {
 			if (fichierServices.createFichier(idUtilisateur, idDossierParent, statut, file)) {
