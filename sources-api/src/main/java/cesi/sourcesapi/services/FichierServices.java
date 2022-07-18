@@ -2,10 +2,12 @@ package cesi.sourcesapi.services;
 
 import java.io.File;
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,7 +21,7 @@ import cesi.sourcesapi.repository.UtilisateurRepository;
 @Service
 public class FichierServices {
 	
-	private String LOCAL_UPLOAD_PATH = "/home/louis/API - cesi/uploads/";
+	private final String LOCAL_UPLOAD_PATH = "/home/louis/API - cesi/uploads/";
 	
 	@Autowired
 	private FichierRepository fichierRepository;
@@ -51,7 +53,7 @@ public class FichierServices {
 				String pathname = UUID.randomUUID().toString();
 				
 				if (saveOnDisk(file, pathname)) {
-					Fichier newFile = new Fichier(file.getOriginalFilename(), (int) file.getSize(), file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1), new Date(System.currentTimeMillis()), String.valueOf(statut), parent, pathname);
+					Fichier newFile = new Fichier(file.getOriginalFilename(), (int) file.getSize(), file.getContentType(), new Date(System.currentTimeMillis()), String.valueOf(statut), parent, pathname);
 					fichierRepository.save(newFile);
 					return true;
 				} else {
@@ -82,6 +84,21 @@ public class FichierServices {
 
 	public List<Fichier> getFichiers(String nom){
 		return fichierRepository.findByNomContainingIgnoreCase(nom);
+	}
+	
+	public HashMap<String, String> getHeader(int idFichier) {
+		HashMap<String, String> map = new HashMap<>();
+		
+		Fichier file = fichierRepository.findById(idFichier);
+		map.put("name", file.getNom());
+		map.put("type", file.getType());
+		
+		return map;
+	}
+	
+	public FileSystemResource downloadFile(int idFichier) {
+		Fichier file = fichierRepository.findById(idFichier);
+		return new FileSystemResource(LOCAL_UPLOAD_PATH + file.getPath());
 	}
 
 }
