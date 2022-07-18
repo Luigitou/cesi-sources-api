@@ -1,0 +1,91 @@
+{
+	"info": {
+		"_postman_id": "345ca10f-3077-4a98-8fa6-5bf843edf5a8",
+		"name": "SearchBar",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21222941"
+	},
+	"item": [
+		{
+			"name": "FichierByNom",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/rechercheFichier?nom=pho",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"rechercheFichier"
+					],
+					"query": [
+						{
+							"key": "nom",
+							"value": "pho"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SearchOnly*Public",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/rechercheFichier?nom=pho&etat=Public",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"rechercheFichier"
+					],
+					"query": [
+						{
+							"key": "nom",
+							"value": "pho"
+						},
+						{
+							"key": "etat",
+							"value": "Public"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Test",
+			"value": "Test",
+			"type": "string"
+		}
+	]
+}

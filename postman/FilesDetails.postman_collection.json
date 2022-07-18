@@ -1,0 +1,35 @@
+{
+	"info": {
+		"_postman_id": "b0be45e7-aa86-440b-acf8-ee8f580f4aac",
+		"name": "FilesDetails",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21222941"
+	},
+	"item": [
+		{
+			"name": "GetFilesDetailsByFilesId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/getFichierFromId?idFichier=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"getFichierFromId"
+					],
+					"query": [
+						{
+							"key": "idFichier",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
