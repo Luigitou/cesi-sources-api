@@ -103,4 +103,8 @@ public class FichierServices {
 			return null;
 		}
 	}
+	
+	public List<Fichier> getFichierByType(String type){
+		return fichierRepository.findByType(type);
+	}
 }
