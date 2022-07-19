@@ -30,6 +30,14 @@ public class FichierServices {
 	@Autowired
 	private UtilisateurRepository utilisateurRepository;
 	
+	public List<Fichier> getSearchedFiles(String nom) throws Exception {
+		try {
+			return fichierRepository.findByNomContainingIgnoreCase(nom);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+	
 	public List<Fichier> getFichiers(int idUtilisateur, int idDossierParent) {
 		try {
 			Utilisateur user = utilisateurRepository.findById(idUtilisateur);

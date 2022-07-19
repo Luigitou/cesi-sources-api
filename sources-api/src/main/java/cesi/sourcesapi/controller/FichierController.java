@@ -24,7 +24,6 @@ public class FichierController {
 	
 	@Autowired
 	private FichierServices fichierServices;
-	private FichierRepository fichierRepository;
     
     // Get files Containing Name
     @GetMapping("/rechercheFichier")
