@@ -44,5 +44,45 @@ public class Response {
     public Response() {
     }
 
+	public Boolean getSuccess() {
+		return success;
+	}
+
+	public void setSuccess(Boolean success) {
+		this.success = success;
+	}
+
+	public Object getData() {
+		return data;
+	}
+
+	public void setData(Object data) {
+		this.data = data;
+	}
+
+	public String getError() {
+		return error;
+	}
+
+	public void setError(String error) {
+		this.error = error;
+	}
+
+	public HttpStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(HttpStatus status) {
+		this.status = status;
+	}
+
+	public Map<String, String> getErrors() {
+		return errors;
+	}
+
+	public void setErrors(Map<String, String> errors) {
+		this.errors = errors;
+	}
+
 
 }

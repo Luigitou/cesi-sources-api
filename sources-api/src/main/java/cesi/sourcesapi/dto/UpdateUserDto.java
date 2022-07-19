@@ -2,7 +2,17 @@ package cesi.sourcesapi.dto;
 
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import javax.validation.constraints.Email;
+
+import cesi.sourcesapi.model.Dossier;
+import cesi.sourcesapi.model.Fichier;
+import cesi.sourcesapi.model.Utilisateur;
 
 @Getter
 @Setter
@@ -18,4 +28,111 @@ public class UpdateUserDto {
     private String mail;
     private String adresse;
     private String password;
+    private List<Utilisateur> amis;
+    private List<Fichier> favoris;
+    private Set<Dossier> dossierEnfant;
+	
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public String getPrenom() {
+		return prenom;
+	}
+
+	public void setPrenom(String prenom) {
+		this.prenom = prenom;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public List<Utilisateur> getAmis() {
+		return amis;
+	}
+
+	public void setAmis(List<Utilisateur> amis) {
+		this.amis = amis;
+	}
+
+	public Set<Dossier> getDossierEnfant() {
+		return dossierEnfant;
+	}
+
+	public void setDossierEnfant(Set<Dossier> dossierEnfant) {
+		this.dossierEnfant = dossierEnfant;
+	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getAdresse() {
+		return adresse;
+	}
+
+	public void setAdresse(String adresse) {
+		this.adresse = adresse;
+	}
+	
+	public List<Fichier> getList() {
+		return this.favoris;
+	}
+	
+	public List<Object> getFavoris() {
+		List<Object> list = new ArrayList<>();
+		
+		Map<String, Object> map = new HashMap<>();
+		for(int i = 0; i < favoris.size(); i++) {
+			map.put("nom", favoris.get(i).getNom());
+			map.put("dateCreation", favoris.get(i).getDateCreation());
+			map.put("etat", favoris.get(i).getEtat());
+			
+			list.add(map);
+		}
+		
+		return list;
+	}
+	
+	public void setFavoris(Fichier favoris) {
+		this.favoris.add(favoris);
+	}
+	
+	public void deleteFavoris(Fichier favoris) {
+		this.favoris.remove(favoris);
+	}
+
+	public List<Utilisateur> getAmi() {
+		return amis;
+	}
+
+	public void setAmi(Utilisateur ami) {
+		this.amis.add(ami);
+	}	
+	
+	public void deleteAmi(Utilisateur ami) {
+		this.amis.remove(ami);
+	}	
+    
 }

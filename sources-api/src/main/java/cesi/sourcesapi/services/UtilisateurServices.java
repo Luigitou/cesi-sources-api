@@ -80,11 +80,4 @@ public class UtilisateurServices {
 			throw e;
 		}
 	}
-
-	public interface UtilisateurService {
-    Response getUserByUsername(String username);
-    Response getAllUtilisateurs();
-    Response deleteUtilisateur(String username);
-    Response updateUtilisateur(String username, UpdateUserDto dto);
-}
 }

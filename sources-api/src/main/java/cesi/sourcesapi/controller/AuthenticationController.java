@@ -43,14 +43,23 @@ public class AuthenticationController {
             response.setData("Email address already exist!");
             return new ResponseEntity<>(response,response.getStatus());
         }
-        Utilisateur user = Utilisateur.builder()
+        /*Utilisateur user = UtilisateurDto.builder()
                 .nom(dto.getNom())
                 .prenom(dto.getPrenom())
                 .username(dto.getUsername())
                 .adresse(dto.getAdresse())
                 .mail(dto.getMail())
                 .password(new BCryptPasswordEncoder().encode(dto.getPassword()))
-                .build();
+                .build();*/
+        
+        Utilisateur user = new Utilisateur();
+        user.setNom(dto.getNom());
+        user.setPrenom(dto.getPrenom());
+        user.setUsername(dto.getUsername());
+        user.setAdresse(dto.getAdresse());
+        user.setMail(dto.getMail());
+        user.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));
+        
         userRepository.save(user);
         response.setStatus(HttpStatus.OK);
         response.setSuccess(true);

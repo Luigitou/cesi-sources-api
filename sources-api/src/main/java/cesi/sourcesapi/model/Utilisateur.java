@@ -1,8 +1,6 @@
  package cesi.sourcesapi.model;
 
-<<<<<<< HEAD
 import java.util.List;
-=======
 //import lombok.*;
 
 import java.util.ArrayList;
@@ -13,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
->>>>>>> 3955724c94d0a2bcf1a0aa821638c0df2172a92b
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,10 +19,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-<<<<<<< HEAD
-=======
 import javax.persistence.OneToMany;
->>>>>>> 3955724c94d0a2bcf1a0aa821638c0df2172a92b
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -38,12 +32,9 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "Utilisateur")
-@Builder
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Utilisateur {
+	
+	public Utilisateur() {}
 
 	
 	@Id
@@ -68,15 +59,13 @@ public class Utilisateur {
 	@Column(name = "mdp", nullable = false)
 	private String password;
 	
-<<<<<<< HEAD
 	@ManyToMany(cascade = { CascadeType.ALL })
 	@JoinTable(
 		name = "Utilisateur_Utilisateur",
 		joinColumns = { @JoinColumn(name = "id_utilisateur")},
 		inverseJoinColumns = { @JoinColumn(name = "id_ami")}
 	)
-	private List<Utilisateur> amis;
-=======
+	private List<Utilisateur> amis = new ArrayList<>();
 	
 	/*@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(	name = "user_roles", 
@@ -95,7 +84,6 @@ public class Utilisateur {
 		inverseJoinColumns = { @JoinColumn(name = "id_favoris")}
 	)
 	private List<Fichier> favoris = new ArrayList<>();
->>>>>>> 3955724c94d0a2bcf1a0aa821638c0df2172a92b
 
 	@OneToMany(mappedBy = "utilisateur", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Dossier> dossierEnfant = new HashSet<>();
@@ -115,6 +103,38 @@ public class Utilisateur {
 
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public List<Utilisateur> getAmis() {
+		return amis;
+	}
+
+	public void setAmis(List<Utilisateur> amis) {
+		this.amis = amis;
+	}
+
+	public Set<Dossier> getDossierEnfant() {
+		return dossierEnfant;
+	}
+
+	public void setDossierEnfant(Set<Dossier> dossierEnfant) {
+		this.dossierEnfant = dossierEnfant;
 	}
 
 	public String getMail() {

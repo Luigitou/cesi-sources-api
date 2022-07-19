@@ -13,7 +13,7 @@ import java.util.Optional;
 
 
 @Service
-public class UtilisateurServiceImpl implements UtilisateurService{
+public class UtilisateurServiceImpl implements UtilisateurService {
     public final UtilisateurRepository utilisateurRepository;
 
     public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository) {
