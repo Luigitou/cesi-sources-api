@@ -20,6 +20,7 @@ public class SourcesApiApplication {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/api/public/**").allowedOrigins("http://localhost:8080");
 				registry.addMapping("/**").allowedOrigins("http://localhost:8080");
+				registry.addMapping("/**").allowedMethods("GET", "POST", "PUT", "DELETE");
 				
 			}
 		};
