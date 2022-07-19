@@ -1,6 +1,7 @@
 
 package cesi.sourcesapi.controller;
 
+import org.springframework.http.HttpHeaders;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Arrays;
@@ -9,7 +10,9 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -96,9 +99,31 @@ public class FichierController {
     @GetMapping("/getFichierFromId")
     public ResponseEntity<Fichier> getFilesDetailsByFilesId(@RequestParam int idFichier){
         try {
-			return new ResponseEntity<>(fichierServices.getFilesById(idFichier), HttpStatus.OK);
+					return new ResponseEntity<>(fichierServices.getFilesById(idFichier), HttpStatus.OK);
         } catch (Exception e) {
            throw new InternalError(e.getMessage());
-		}
+				}
     }	
+
+	@GetMapping("/getHeaderFromFile")
+	public ResponseEntity<Object> getHeaderFromCommentaire(@RequestParam int idFichier) {
+		try {
+			return new ResponseEntity<>(fichierServices.getHeader(idFichier), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@GetMapping("/downloadFile")
+	public ResponseEntity<Object> downloadFile(@RequestParam int idFichier) {
+		try {
+			HttpHeaders headers = new HttpHeaders();
+			FileSystemResource file = fichierServices.downloadFile(idFichier);
+			headers.setContentType(MediaType.parseMediaType(fichierServices.getHeader(idFichier).get("type")));
+			headers.setContentLength(file.contentLength());
+			return new ResponseEntity<>(file, headers, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }

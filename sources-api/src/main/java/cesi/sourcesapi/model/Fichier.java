@@ -1,6 +1,7 @@
 package cesi.sourcesapi.model;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -13,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -70,6 +72,9 @@ public class Fichier {
 	@JoinColumn(name = "Dossier_id", insertable = true, updatable = true) 
 	private Dossier dossier;
 	
+	@OneToMany
+	private List<Commentaire> commentairesList = new ArrayList<>();
+
 	public int getId() {
 		return id;
 	}
@@ -133,4 +138,17 @@ public class Fichier {
 	public void setDossier(Dossier dossier) {
 		this.dossier = dossier;
 	}
+
+	public List<Commentaire> getCommentairesList() {
+		return commentairesList;
+	}
+
+	public void setCommentairesList(List<Commentaire> commentairesList) {
+		this.commentairesList = commentairesList;
+	}
+	
+	public void addCommentaires(Commentaire commantaire) {
+		this.commentairesList.add(commantaire);
+	}
+	
 }
