@@ -30,7 +30,7 @@ import static org.springframework.http.HttpStatus.FORBIDDEN;
 public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().equals("/api/public/login")||request.getServletPath().equals("api/public/register")){
+        if (request.getServletPath().equals("/api/public/login")||request.getServletPath().equals("/api/public/register")){
             filterChain.doFilter(request,response);
         }else {
             String requestTokenHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
