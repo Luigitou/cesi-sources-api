@@ -3,13 +3,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
 .metadata
-=======
->>>>>>> 7e7bc965b08930fb4af5ac7f89fc175b13855046
->>>>>>> Stashed changes
 
 ### STS ###
 .apt_generated
