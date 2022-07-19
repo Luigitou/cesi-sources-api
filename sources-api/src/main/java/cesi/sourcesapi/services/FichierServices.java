@@ -1,6 +1,7 @@
 package cesi.sourcesapi.services;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,7 +22,7 @@ import cesi.sourcesapi.repository.UtilisateurRepository;
 @Service
 public class FichierServices {
 	
-	private final String LOCAL_UPLOAD_PATH = "/home/louis/API - cesi/uploads/";
+	private final String LOCAL_UPLOAD_PATH = "/home/louis/uploads/";
 	
 	@Autowired
 	private FichierRepository fichierRepository;
@@ -52,7 +53,7 @@ public class FichierServices {
 		}
 	}
 	
-	public boolean createFichier(int idUtilisateur, int idDossierParent, int statut, MultipartFile file) {
+	public boolean createFichier(int idUtilisateur, int idDossierParent, int statut, MultipartFile file) throws Exception {
 		try {
 			if (!file.isEmpty()) {
 				Utilisateur user = utilisateurRepository.findById(idUtilisateur);
@@ -65,28 +66,32 @@ public class FichierServices {
 					fichierRepository.save(newFile);
 					return true;
 				} else {
-					return false;
+					throw new Exception("File cant be saved on disk !");
 				}
 			} else {
-				return false;
+				throw new Exception("File is empty !");
 			}
 		} catch (Exception e) {
-			return false;
+			throw e;
 		}
 	}
 	
-	public boolean saveOnDisk(MultipartFile file, String pathname) {
+	public boolean saveOnDisk(MultipartFile file, String pathname) throws Exception{
 		try {
+			
 			if (!new File(LOCAL_UPLOAD_PATH).exists()) {
-				new File(LOCAL_UPLOAD_PATH).mkdir();
+				new File(LOCAL_UPLOAD_PATH).mkdirs();
 			}
 			
-			File destination = new File(LOCAL_UPLOAD_PATH + pathname);
-			file.transferTo(destination);
-			
+			File destination = new File(new File(LOCAL_UPLOAD_PATH).getAbsolutePath() + "/" + pathname);
+			//file.transferTo(destination);
+			byte[] newFile = file.getBytes();
+			FileOutputStream fos = new FileOutputStream(destination);
+			fos.write(newFile);
+			fos.close();
 			return true;
 		} catch (Exception e) {
-			return false;
+			throw e;
 		}
 	}
 

@@ -85,11 +85,7 @@ public class FichierController {
 	@PostMapping("/createFichier")
 	public ResponseEntity<Object> createFichiers(@RequestParam int idUtilisateur, @RequestParam int idDossierParent, @RequestParam int statut, @RequestParam("file") MultipartFile file) {
 		try {
-			if (fichierServices.createFichier(idUtilisateur, idDossierParent, statut, file)) {
-				return new ResponseEntity<>(HttpStatus.CREATED);
-			} else {
-				return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-			}
+			return new ResponseEntity<>(fichierServices.createFichier(idUtilisateur, idDossierParent, statut, file), HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
