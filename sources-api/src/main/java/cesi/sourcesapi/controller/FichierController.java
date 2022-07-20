@@ -40,7 +40,6 @@ public class FichierController {
         	for(Fichier files : fichierList) {
     			if (files.getEtat().equals("0")) {
     				returnFiles.add(files);
-    				System.out.println("Test" + files.getNom() + files.getEtat());
     			}
     		}
         	return new ResponseEntity<List<Fichier>>(returnFiles, HttpStatus.CREATED);
