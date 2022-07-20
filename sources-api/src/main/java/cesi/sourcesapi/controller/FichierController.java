@@ -62,8 +62,8 @@ public class FichierController {
 	public List<Fichier> getImages(){       
 		List<Fichier> types = new ArrayList<>();
 		
-		types.addAll(fichierServices.getFichierByType("jpg"));
-		types.addAll(fichierServices.getFichierByType("png"));
+		types.addAll(fichierServices.getFichierByType("image/jpg"));
+		types.addAll(fichierServices.getFichierByType("image/png"));
 		
 		return types; 
 	}
@@ -72,15 +72,15 @@ public class FichierController {
 	public List<Fichier> getDocuments(){
 		List<Fichier> types = new ArrayList<>();
 		
-		types.addAll(fichierServices.getFichierByType("pdf"));
-		types.addAll(fichierServices.getFichierByType("doc"));
+		types.addAll(fichierServices.getFichierByType("application/pdf"));
+		types.addAll(fichierServices.getFichierByType("application/doc"));
 		
 		return types;
 	}
 	
 	@GetMapping("/getVideos")
 	public List<Fichier> getVideos(){
-		 return fichierServices.getFichierByType("mp4");
+		 return fichierServices.getFichierByType("application/mp4");
 	}
 
 	@PostMapping("/createFichier")
