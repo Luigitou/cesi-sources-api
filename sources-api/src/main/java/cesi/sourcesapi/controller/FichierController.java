@@ -36,10 +36,11 @@ public class FichierController {
     public ResponseEntity<List<Fichier>> getFichiersPublicByNom(@RequestParam String nom, String etat){
     	List<Fichier> returnFiles = new ArrayList<Fichier>();;
         try {
-        	List<Fichier> fichierList = fichierServices.getFichiers(nom);
+        	List<Fichier> fichierList = fichierServices.getSearchedFiles(nom);
         	for(Fichier files : fichierList) {
-    			if (files.getEtat().equals("Public")) {
+    			if (files.getEtat().equals("0")) {
     				returnFiles.add(files);
+    				System.out.println("Test" + files.getNom() + files.getEtat());
     			}
     		}
         	return new ResponseEntity<List<Fichier>>(returnFiles, HttpStatus.CREATED);
