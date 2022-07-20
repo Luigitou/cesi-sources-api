@@ -43,7 +43,7 @@ public class FichierController {
     				System.out.println("Test" + files.getNom() + files.getEtat());
     			}
     		}
-        	return new ResponseEntity<List<Fichier>>(returnFiles, HttpStatus.CREATED);
+        	return new ResponseEntity<List<Fichier>>(returnFiles, HttpStatus.OK);
         } catch (Exception e) {
            throw new InternalError(e.getMessage());
 		}
